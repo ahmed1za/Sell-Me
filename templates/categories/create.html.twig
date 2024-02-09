@@ -1,0 +1,13 @@
+{% extends 'baseForm.html.twig' %}
+
+{% block bodyForm %}
+{{ form_start(categorieForm) }}
+    {{ form_widget(categorieForm) }}
+    <button>valider</button>
+    {{ form_end(categorieForm) }}
+{% endblock %}
+
+{% block titleForm %}
+{{ parent() }} | ajouter une catégorie
+{% endblock %}
+

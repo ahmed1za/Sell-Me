@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Sell Me{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+    <script src="{{ asset('Js/script.js') }}"></script>
+    <link rel="icon" href="{{ asset('img/sell-me-logo.png') }}">
+
+</head>
+<body>
+<div class="container">
+    <header>
+       <a href="{{ path('main_home') }}"><img src="{{ asset('img/logo sell me.png') }}" alt="Sell Me"></a>
+        <div class="barre_et_btn_de_recherche">
+                {{ form_start(searchForm) }}
+                    {{ form_widget(searchForm) }}
+                <button><img src="{{ asset('icon/loop.png') }}"></button>
+                {{ form_end(searchForm) }}
+        </div>
+        <div class="panier">
+
+            <a href="{{ path('cart_index') }}"><img src="{{ asset('image-sell-me/Panier.png') }}"> panier</a>
+        </div>
+        <div class="detail-panier">
+            <div>{{ app.session.get('totalProduits', 0) }}</div>
+        </div>
+
+
+        <nav class="nav-header">
+            <ul>
+                <li class="menu-item"><a href="#"><img src="{{ asset('img/clipart365828.png') }}" id="clipart"></a>
+                    <ul class="sub-menu">
+                        {% if not app.user %}
+                            <div class="identifier-vous"><a href="{{ path('app_login') }}"><img src="{{ asset('img/profil.png') }}"> Bonjour, identifier vous</a></div>
+                        {% else %}
+                            <div class="identifier-vous"><a href="#"><img src="{{ asset('img/profil.png') }}"> Bonjour, {{ app.user.nom }} {{ app.user.prenom }}</a></div>
+                        {% endif %}
+                        <h4>Compte</h4>
+
+                        {% if app.user %}
+                            <li><a href="#">Profil</a></li>
+                        {% else %}
+                            <li><a href="{{ path('app_login') }}" title="Profil">Profil</a></li>
+                        {% endif %}
+                        {% if not app.user %}
+                            <li><a href="{{ path('app_login') }}" title="Se connecter">Se connecter</a></li>
+                            <li><a href="{{ path('app_register') }}" title="S'inscrire">S'inscrire</a></li>
+                        {% else %}
+
+                            {% if is_granted("ROLE_USER") or is_granted("ROLE_ADMIN") %}
+                                <li><a href="{{ path('produits_create') }}" title="ajouter un produit">Déposer une annonce</a></li>
+                            {% endif %}
+                            <li><a href="#" title="Parametres">Parametres</a></li>
+                            <li><a href="#" title="Messagerie">Messagerie</a></li>
+                            {% if is_granted("ROLE_ADMIN") %}
+                                <li><a href="{{ path('admin_dashboard') }}" title="dashboard">Tableau de bord</a></li>
+                                <li><a href="{{ path('categories_create') }}" title="dashboard">ajouter une catégorie</a></li>
+                            {% endif %}
+
+                            <li><a href="{{ path('app_logout') }}" title="Se déconnecter">Se déconnecter</a></li>
+                        {% endif %}
+
+                        <h4>Choisir une catégorie</h4>
+                        {% for categorie in categories %}
+                            <li><a href="{{ path('produits_categorie', {'categorie': categorie.nom}) }}" title="{{ categorie.nom }}">{{ categorie.nom }}</a></li>
+                        {% endfor %}
+                        <li class="button-sub-menu"><button><a href="{{ path('produits_list') }}" title="tous les produits">Tous les produits</a></button></li>
+                        <h4>Aide</h4>
+                        <li><a href="">FAQ</a></li>
+                        <li><a href="">Nous contacter</a></li>
+                        <li><a href="">CGV et Droits</a></li>
+                        <li><a href="">Pour mieux nous connaitre</a></li>
+                        <div class="logo-submenu"><img src="{{ asset('img/logo sell me.png') }}"></div>
+                    </ul>
+                </li>
+                {% for categorie in categories %}
+                    <li><a href="{{ path('produits_categorie', {'categorie': categorie.nom}) }}" title="{{ categorie.nom }}">{{ categorie.nom }}</a></li>
+                {% endfor %}
+            </ul>
+        </nav>
+        {% block header %} <div id="carrousel">
+            <div id="container-carrousel">
+
+            </div>
+
+            <img src="{{ asset('icon/flech gauche.png') }}" class="bouton" id="g">
+            <img src="{{ asset('icon/fleche droite.png') }}" class="bouton" id="d">
+
+
+        </div>
+        {% endblock %}
+    </header>
+
+    <main>
+        {% block body %}    <div class="sell-me-presentation"><h1>Sell Me</h1>
+            <article>
+                Votre destination en ligne pour des produits d'exception qui vous feront briller de mille feux.
+                Nous sommes ravis de vous accueillir dans notre univers étincelant où le luxe et l'élégance sont à portée de clic.
+                la plateforme en ligne qui vous offre une opportunité unique de mettre en valeur vos trésors personnels et de les
+                transformer en de l'or.
+                Nous sommes enchantés de vous accueillir dans notre espace dédié aux particuliers,
+                où vous pouvez vendre vos produits de manière simple et efficace.
+            </article>
+            <button><a href="#">Lire plus</a></button>
+        </div>
+
+            <div class="pub1">
+                <p id="p1"><a href="#">Mode Bébe</a></p>
+                <div><a href="#"><img src="{{ asset('imageProduit/image-bebe.png') }}"></a></div>
+                <p id="p2"><a href="#">Mode Enfant</a></p>
+                <div><a href="#"><img src="{{ asset('imageProduit/image-enfant.png') }}"></a></div>
+            </div>
+
+            <div class="slider">
+            <div class="slider_nav">
+                <h2>Découvrir</h2>
+                <img onclick="previous()" class="slider_nav_button slider_nav_button--prev" src="{{ asset('icon/fleche gauche noire.png') }}">
+                <img onclick="next()" class="slider_nav_button slider_nav_button--next" src="{{ asset('icon/fleche droite noire.png') }}">
+
+            </div>
+
+            <div class="slider_content">
+                <div class="slider_content_item">
+                    <img src="{{ asset('imageProduit/image-enfant.png') }}">
+                    <h3>Mode Enfant</h3>
+                </div>
+                <div class="slider_content_item">
+                    <img src="{{ asset('imageProduit/raw.jpg') }}">
+                    <h3>Mode Enfant</h3>
+                </div>
+                <div class="slider_content_item">
+                    <img src="{{ asset('imageProduit/R.jpg') }}">
+                    <h3>Mode Enfant</h3>
+                </div>
+                <div class="slider_content_item">
+                    <img src="{{ asset('imageProduit/Huawei-P40-Pro-3.webp') }}">
+                    <h3>Mode Enfant</h3>
+                </div>
+                <div class="slider_content_item">
+                    <img src="{{ asset('imageProduit/34500ba22f910c17359ce57a3c170186872bb86c.jpg') }}">
+                    <h3>Mode Enfant</h3>
+                </div>
+                <div class="slider_content_item">
+                    <img src="{{ asset('imageProduit/lenovo-yoga-slim-7i-carbon-2022-test-1-scaled.jpg') }}">
+                    <h3>Mode Enfant</h3>
+                </div>
+                <div class="slider_content_item">
+                    <img src="{{ asset('imageProduit/208.jpg') }}">
+                    <h3>Mode Enfant</h3>
+                </div>
+                <div class="slider_content_item">
+                    <img src="{{ asset('imageProduit/mise-plat-accessoires-mode-femme-couleurs-jaunes_72402-2654-min.jpg') }}">
+                    <h3>Mode Enfant</h3>
+                </div>
+                <div class="slider_content_item">
+                    <img src="{{ asset('imageProduit/huawei-matepad-pro-11-une-2-770.jpg') }}">
+                    <h3>Mode Enfant</h3>
+                </div>
+
+
+            </div>
+
+            </div>
+        {% endblock %}
+    </main>
+
+
+    <footer>
+        <div class="copyright">
+            <img src="{{ asset('img/logo sell me.png') }}" alt="Sell Me">
+            <div>    &copy;{{ "now"|date("Y") }} Sell Me </div>
+        </div>
+        <div class="menu-footer">
+            <nav>
+                <h4>Pour mieux nous connaitre</h4>
+                <ul>
+                    <li><a href="#" title="">Qui sommes-nous ?</a></li>
+                    <li><a href="#" title="">FAQ</a></li>
+                    <li><a href="#" title="">Nous contacter</a></li>
+                </ul>
+            </nav>
+
+
+
+            <nav>
+                <h4>Les nouveautées</h4>
+                <ul>
+                    <li><a href="#" title="">Mode</a></li>
+                    <li><a href="#" title="">Bébés & enfants</a></li>
+                    <li><a href="#" title="">Emploi</a></li>
+                </ul>
+            </nav>
+
+
+            <nav>
+                <h4>Conditions générales</h4>
+                <ul>
+                    <li><a href="#" title="">CGV Sell Me</a></li>
+                    <li><a href="#" title="">Vie privée et cookies</a></li>
+                    <li><a href="#">Gérer mes cookies</a></li>
+                </ul>
+            </nav>
+        </div>
+
+    </footer>
+</div>
+</body>
+</html>
+

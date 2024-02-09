@@ -1,0 +1,41 @@
+{% extends 'main/home.html.twig' %}
+
+{% block body %}
+    <div class="main-container">
+    <div class="filtre">
+        {{ form_start(filtreForm) }}
+        {{ form_widget(filtreForm) }}
+        <button>filtrer</button>
+        {{ form_end(filtreForm) }}
+    </div>
+<section class="produit-list">
+    {% for produit in produits %}
+        <article class="articl-produit">
+            <a href="{{ path('produits_detail', {'id': produit.id}) }}" title="Voir les détails | quantité disponible {{ produit.quantite }}">
+                {% if produit.image != "" %}
+                    <img src="{{ asset('imageProduit/' ~ produit.image) }}" alt="{{ produit.nom }}">
+                {% else %}
+                    <img src="{{ asset('image-sell-me/image-par-default.jpg') }}" alt="{{produit.nom }}">
+                {% endif %}
+            </a>
+            <h1 id="produit-nom">{{ produit.nom }} </h1>
+            <p id="produit-categorie">categorie : {{ produit.categorie.nom }}</p>
+           <div class="articl-produit-detail">
+            <p id="produit-prix">{{ produit.prix|number_format(0, ',',' ') }} €</p>
+            <p id="produit-etat">{{ produit.etat }}</p>
+           </div>
+        </article>
+    {% endfor %}
+</section>
+    </div>
+{% endblock %}
+
+{% block nav1 %}
+    {{ parent() }}
+{% endblock %}
+
+{% block title %}
+{{ parent() }}| tous les produits
+{% endblock %}
+
+{% block header %}{% endblock %}

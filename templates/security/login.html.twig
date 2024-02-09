@@ -1,0 +1,55 @@
+{% extends 'baseForm.html.twig' %}
+
+{% block titleForm %}Connexion{% endblock %}
+
+{% block bodyForm %}
+<form method="post">
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+
+    <h2 class="h3 mb-3 font-weight-normal" id="connexion">Déja client ?</h2>
+    <label for="inputEmail">Email</label>
+    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+    <label for="inputPassword">Mot de passe</label>
+    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+
+
+        {# Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+        See https://symfony.com/doc/current/security/remember_me.html #}
+
+
+
+
+    <button class="btn btn-lg btn-primary" type="submit">
+        connexion
+    </button>
+
+    <div class="checkbox mb-3">
+        <label>
+            <input type="checkbox" name="_remember_me"> Se souvenir de moi
+        </label>
+        <label><a href="{{ path('app_forgot_password_request') }}" title="mot de passe oublier">Mot de passe oublier ?</a></label>
+    </div>
+
+</form>
+    <div class="inscription-login">
+        <h4>Nouveau client ?</h4>
+        <button><a href="{{ path('app_register') }}">Créer un compte</a></button>
+    </div>
+    <article id="articl-connexion">Sell Me, en tant que responsable de traitement,
+        traite les données recueillies à des fins de gestion de la relation client,
+        gestion des commandes et des livraisons, personnalisation des services,
+        prévention de la fraude, marketing et publicité ciblée. Pour en savoir plus,
+        reportez-vous à la Politique de protection de vos données personnelles</article>
+{% endblock %}

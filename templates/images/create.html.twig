@@ -1,0 +1,14 @@
+{% extends 'baseForm.html.twig' %}
+
+{% block bodyForm %}
+    <div>  Ajouter une ou plusieurs images pour l'article :{{ produit.nom }}</div>
+{{ form_start(imageForm) }}
+    {{ form_widget(imageForm) }}
+    <button>Valider !</button>
+    {{ form_end(imageForm) }}
+{% endblock %}
+
+{% block title %}
+{{ parent() }}| images
+{% endblock %}
+

@@ -1,0 +1,8 @@
+{% extends 'baseForm.html.twig' %}
+  {% block titleForm %}{{ parent() }} ajout d'un produit{% endblock %}
+{% block bodyForm %}
+        {{ form_start(produiForm) }}
+        {{ form_widget(produiForm) }}
+        <button type="submit"> Créer !</button>
+        {{ form_end(produiForm) }}
+{% endblock %}

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block titleForm %}Sell Me| {% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="icon" href="{{ asset('img/sell-me-logo.png') }}">
+</head>
+<body class="form-container">
+<div class="form-product">
+
+    <a href="{{ path('main_home') }}"><img src="{{ asset('img/logo sell me.png') }}" id="logo-form"></a>
+    {% block bodyForm %}    {% endblock %}
+</div >
+
+</body>
+</html>

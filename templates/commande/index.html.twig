@@ -1,0 +1,25 @@
+{% extends 'main/home.html.twig' %}
+
+{% block title %}
+    Panier | {{ parent() }}
+{% endblock %}
+
+{% block header %}{% endblock %}
+{% block nav1 %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1>Confirmation de commande</h1>
+    <p>Numéro de référence : {{ commande.reference }}</p>
+    <h2>Détails de la commande :</h2>
+    <ul>
+        {% for detail in commande.commandeDetails %}
+            <li>{{ detail.produitId.nom }} - Quantité : {{ detail.quantite }} - Prix unitaire : {{ detail.prix }}</li>
+        {% endfor %}
+    </ul>
+    <h3> Adress de livraison connu :  {{ commande.userId.adress }} {{ commande.userId.codePostal }}
+        {{ commande.userId.ville }} {{ commande.userId.pays }}
+    </h3>
+
+{% endblock %}

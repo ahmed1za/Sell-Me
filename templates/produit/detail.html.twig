@@ -1,0 +1,102 @@
+{% extends 'main/home.html.twig' %}
+
+{% block title %}
+    {{ parent() }}| {{ produit.nom }}
+{% endblock %}
+{% block header %}{% endblock %}
+
+ {% block body %}
+    <div class="produit-container">
+        <div class="produit-image">
+
+
+
+              <div class="slider_detail">
+                  <div class="slider_detail_nav">
+                      <img onclick="precedent()" class="slider_nav_button_detail slider_nav_button_detail--prev"  src="{{ asset('icon/flech gauche.png') }}">
+                      <img onclick="suivant()" class="slider_nav_button_detail slider_nav_button_detail--next"  src="{{ asset('icon/fleche droite.png') }}">
+
+                  </div>
+
+                  <div class="slider_content_detail">
+                      <div class="slider_content_item_detail">
+                          {% if produit.image != "" %}
+                              <img src="{{ asset('imageProduit/' ~ produit.image) }}" alt="{{ produit.nom }}">
+                            {% else %}
+                                <img src="{{ asset('image-sell-me/image-par-default.jpg') }}" alt="{{ produit.nom }}">
+                                {% dump(asset('image-sell-me/image-par-default.jpg'))  %}
+                              {% dump("on est dans la condition") %}
+                          {% endif %}
+
+                      </div>
+
+
+                      {% for image in produit.images %}
+                          {% if image.image != "" %}
+                              <div class="slider_content_item_detail">
+                                  <img src="{{ asset('imageProduit/' ~ image.image) }}" alt="images {{ produit.nom }}">
+                              </div>
+                          {% endif %}
+                      {% endfor %}
+                  </div>
+
+              </div>
+
+
+
+        </div>
+        <div class="produit-details">
+            <h2 class="produit-nom">{{ produit.nom }}</h2>
+            <div class="produit-etat"><ul><li>{{ produit.etat }}</li></ul></div>
+            <div class="produit-description">{{ produit.discription }}</div>
+        </div>
+        <div class="produit-pricing">
+            <div class="produit-prix">{{ produit.prix }} €</div>
+            {% if produit.livraison is same as false %}
+            <div class="livraison-non-disponible"> Livraison disponible </div>
+            {% else %}
+                <div class="livraison-disponible"> Livraison disponible</div>
+            {% endif %}
+            <div class="produit-quantite">Quantité : {{ produit.quantite }}</div>
+            <div ><label title="{{ produit.vendeur.nom }} {{ produit.vendeur.prenom }} {{ produit.vendeur.produits|length }}">vendu par : {{ produit.vendeur.prenom }}</label></div>
+            <div class="produit-actions">
+                {% if produit.vendeur.nature is same as "particulier" %}
+                    <button class="contacter-vendeur">Contacter le vendeur</button>
+                    <button class="ajouter-panier" disabled>Ajouter au panier</button>
+                {% elseif produit.vendeur.nature is same as "professionnel" %}
+                    <button class="contacter-vendeur" disabled>Contacter le vendeur</button>
+                    <button class="ajouter-panier"><a href=" {{ path('cart_add',{'id': produit.id})  }}">Ajouter au panier</a></button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{#{% block body %}
+    <div class="produit-container">
+        <div class="produit-image">
+            {% if produit.image is defined %}
+                <img src="{{ asset('imageProduit/' ~ produit.image) }}" alt="{{ produit.nom }}">
+            {% elseif produit.images is defined and produit.images|length > 0 %}
+                <img src="{{ asset('imageProduit/' ~ produit.images[0].image) }}" alt="images {{ produit.nom }}">
+            {% endif %}
+            <section class="images">
+                {% for image in produit.images %}
+                    <div>
+                        <img src="{{ asset('imageProduit/' ~ image.image) }}" alt="images {{ produit.nom }}">
+                    </div>
+                {% endfor %}
+            </section>
+        </div>
+        <div class="produit-details">
+            <h2>{{ produit.nom }}</h2>
+            <div class="produit-etat">État : {{ produit.etat }}</div>
+            <div class="produit-description">Description : {{ produit.description }}</div>
+        </div>
+        <div class="produit-pricing">
+            <div class="produit-prix">Prix : {{ produit.prix }} €</div>
+            <div class="produit-quantite">Quantité : {{ produit.quantite }}</div>
+        </div>
+    </div>
+{% endblock %}
+#}
