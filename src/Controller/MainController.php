@@ -11,6 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Update;
 
 class MainController extends AbstractController
 {
@@ -55,5 +57,21 @@ public function home(CategoriesRepository $categoriesRepository,Request $request
         'categories'=>$categories,
            ]);
 }
+
+
+    /**
+     * @Route("/publish", name="publish")
+     */
+    public function publish(HubInterface $hub): Response
+    {
+        $update = new Update(
+            'https://example.com/books/1',
+            json_encode(['status' => 'ok'])
+        );
+
+        $hub->publish($update);
+
+        return new Response('published!');
+    }
 
 }

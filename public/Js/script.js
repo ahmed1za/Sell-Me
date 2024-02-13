@@ -153,18 +153,27 @@ document.addEventListener('DOMContentLoaded', function () {
 function masquerMessageFlash() {
     var messageFlash = document.querySelector('.message-flash');
 
-    // Ajoutez la classe 'fade-out' pour déclencher la transition de fondu
-    messageFlash.classList.add('fade-out');
+    if (messageFlash) {
+        // Ajoutez la classe 'fade-out' pour déclencher la transition de fondu
+        messageFlash.classList.add('fade-out');
 
-    // Attendez que la transition soit terminée, puis masquez le message
-    setTimeout(function() {
-        messageFlash.style.display = 'none';
-    }, 2000); // 1000 millisecondes correspondent à la durée de la transition
+        // Attendez que la transition soit terminée, puis masquez le message
+        setTimeout(function () {
+            messageFlash.style.display = 'none';
+        }, 2000); // 1000 millisecondes correspondent à la durée de la transition
+    }
 }
 
 // Appelez la fonction après un certain délai (par exemple, 3000 millisecondes)
 setTimeout(masquerMessageFlash, 3000);
 
+
+
+    const eventSource = new EventSource("{{ mercure('https://example.com/books/1')|escape('js') }}");
+    eventSource.onmessage = event => {
+    // Will be called every time an update is published by the server
+    console.log(JSON.parse(event.data));
+}
 
 
 
