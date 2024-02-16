@@ -65,9 +65,10 @@ public function home(CategoriesRepository $categoriesRepository,Request $request
     public function publish(HubInterface $hub): Response
     {
         $update = new Update(
-            'https://example.com/books/1',
-            json_encode(['status' => 'ok'])
+            'https://mercure.test/chat',
+            json_encode(['message' => 'message envoyé!'])
         );
+
 
         $hub->publish($update);
 

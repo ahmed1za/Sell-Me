@@ -1,3 +1,5 @@
+
+
 function previous(){
     const widthSlider = document.querySelector(".slider").offsetWidth;
     const sliderContent = document.querySelector(".slider_content");
@@ -169,11 +171,55 @@ setTimeout(masquerMessageFlash, 3000);
 
 
 
-    const eventSource = new EventSource("{{ mercure('https://example.com/books/1')|escape('js') }}");
-    eventSource.onmessage = event => {
-    // Will be called every time an update is published by the server
-    console.log(JSON.parse(event.data));
-}
+
+
+
+
+
+
+// Ce script peut être utilisé pour envoyer des messages dans le chat en appuyant sur "Enter"
+document.addEventListener('DOMContentLoaded', () => {
+    const messageInput = document.getElementById('message-input');
+    const sendButton = document.getElementById('send-button');
+    const chatMessages = document.getElementById('chat-messages');
+
+    sendButton.addEventListener('click', sendMessage);
+    messageInput.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+    function sendMessage() {
+        const message = messageInput.value.trim();
+        if (message !== '') {
+            appendMessage('Moi', message);
+            messageInput.value = '';
+            // Vous pouvez ajouter ici le code pour envoyer le message à un serveur ou à d'autres utilisateurs
+        }
+    }
+
+    function appendMessage(sender, message) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('chat-message');
+
+        const senderSpan = document.createElement('span');
+        senderSpan.classList.add('sender');
+        senderSpan.textContent = sender + ': ';
+
+        const messageBodySpan = document.createElement('span');
+        messageBodySpan.classList.add('message-body');
+        messageBodySpan.textContent = message;
+
+        messageDiv.appendChild(senderSpan);
+        messageDiv.appendChild(messageBodySpan);
+
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight; // Fait défiler vers le bas pour afficher les nouveaux messages
+    }
+});
+
+
 
 
 

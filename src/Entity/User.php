@@ -87,10 +87,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $Pays;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Messages::class, mappedBy="envoyeur", orphanRemoval=true)
+     */
+    private $envoyer;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Messages::class, mappedBy="destinataire", orphanRemoval=true)
+     */
+    private $recu;
+
     public function __construct()
     {
         $this->produits = new ArrayCollection();
         $this->commandes = new ArrayCollection();
+        $this->envoyer = new ArrayCollection();
+        $this->recu = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -318,6 +330,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPays(string $Pays): self
     {
         $this->Pays = $Pays;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Messages>
+     */
+    public function getEnvoyer(): Collection
+    {
+        return $this->envoyer;
+    }
+
+    public function addEnvoyer(Messages $envoyer): self
+    {
+        if (!$this->envoyer->contains($envoyer)) {
+            $this->envoyer[] = $envoyer;
+            $envoyer->setEnvoyeur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEnvoyer(Messages $envoyer): self
+    {
+        if ($this->envoyer->removeElement($envoyer)) {
+            // set the owning side to null (unless already changed)
+            if ($envoyer->getEnvoyeur() === $this) {
+                $envoyer->setEnvoyeur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Messages>
+     */
+    public function getRecu(): Collection
+    {
+        return $this->recu;
+    }
+
+    public function addRecu(Messages $recu): self
+    {
+        if (!$this->recu->contains($recu)) {
+            $this->recu[] = $recu;
+            $recu->setDestinataire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecu(Messages $recu): self
+    {
+        if ($this->recu->removeElement($recu)) {
+            // set the owning side to null (unless already changed)
+            if ($recu->getDestinataire() === $this) {
+                $recu->setDestinataire(null);
+            }
+        }
 
         return $this;
     }

@@ -4,6 +4,5 @@ services:
 ###> symfony/mercure-bundle ###
   mercure:
     ports:
-      - "8000:80"
       - "80"
 ###< symfony/mercure-bundle ###
