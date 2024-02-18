@@ -61,7 +61,12 @@
             <div ><label title="{{ produit.vendeur.nom }} {{ produit.vendeur.prenom }} {{ produit.vendeur.produits|length }}">vendu par : {{ produit.vendeur.prenom }}</label></div>
             <div class="produit-actions">
                 {% if produit.vendeur.nature is same as "particulier" %}
-                    <button class="contacter-vendeur">Contacter le vendeur</button>
+                    {% if app.user %}
+                        <button class="contacter-vendeur"><a href="{{ path('app_chat',{'id': produit.vendeur.id ,'produitId': produit.id}) }}">Contacter le vendeur</a></button>
+                        {% else %}
+                            <button class="contacter-vendeur"><a href="{{ path('contacterVendeur',{'id': produit.vendeur.id ,'produitId': produit.id}) }}">Contacter le vendeur</a></button>
+                    {% endif %}
+
                     <button class="ajouter-panier" disabled>Ajouter au panier</button>
                 {% elseif produit.vendeur.nature is same as "professionnel" %}
                     <button class="contacter-vendeur" disabled>Contacter le vendeur</button>

@@ -51,6 +51,23 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
+        $contacterVendeurInfo = $request->getSession()->get('contacter_vendeur');
+
+        // Si des informations de redirection sont disponibles, les utiliser pour la redirection
+        if ($contacterVendeurInfo) {
+            $id = $contacterVendeurInfo['id'];
+            $produitId = $contacterVendeurInfo['produitId'];
+
+            // Effacer les informations de redirection de la session
+            $request->getSession()->remove('contacter_vendeur');
+
+            // Rediriger vers la page de chat avec les informations appropriées
+            return new RedirectResponse($this->urlGenerator->generate('app_chat', [
+                'id' => $id,
+                'produitId' => $produitId
+            ]));
+        }
+
         // For example:
          return new RedirectResponse($this->urlGenerator->generate('produits_list'));
 

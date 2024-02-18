@@ -49,6 +49,16 @@ class Messages
      */
     private $destinataire;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $fichier;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -122,6 +132,30 @@ class Messages
     public function setDestinataire(?User $destinataire): self
     {
         $this->destinataire = $destinataire;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getFichier(): ?string
+    {
+        return $this->fichier;
+    }
+
+    public function setFichier(?string $fichier): self
+    {
+        $this->fichier = $fichier;
 
         return $this;
     }

@@ -1,21 +1,85 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-</head>
-<body class="message-container">
-<div class="chat-container">
-    <div class="chat-messages" id="chat-messages">
-        <!-- Messages du chat seront ajoutés ici -->
-    </div>
-    <div class="chat-input">
-        <input type="text" id="message-input" placeholder="Entrez votre message...">
-        <button id="send-button">Envoyer</button>
-    </div>
-</div>
-<script src="{{ asset('Js/script.js') }}"></script>
-</body>
-</html>
+{% extends 'main/home.html.twig' %}
+{% block title %}
+   Messagerie {{ parent() }}
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block body %}
+   <div class="messagerie">
+      <div class="messagerie-title">
+         <h1>Messagerie</h1>
+      </div>
+      <div class="messagerie-elements">
+         <div class="element">
+            <div class="element-image">
+               <img src="{{ asset('image-sell-me/image-par-default.jpg') }}" alt="image">
+            </div>
+            <div class="element-title">
+               <h3> Vendeur </h3>
+            </div>
+            <div class="element-produit">
+               <p> Nom du produit </p>
+            </div>
+         </div>
+         <div class="element">
+            <div class="element-image">
+               <img src="{{ asset('imageProduit/huawei-matepad-pro-11-une-2-770.jpg') }}" alt="image">
+
+            </div>
+            <div class="element-title">
+               <h3> Vendeur </h3>
+            </div>
+            <div class="element-produit">
+               <p> Nom du produit </p>
+            </div>
+         </div>
+         <div class="element" >
+            <div class="element-image">
+               <img src="{{ asset('image-sell-me/image-par-default.jpg') }}" alt="image">
+            </div>
+            <div class="element-title">
+               <h3> Vendeur </h3>
+            </div>
+            <div class="element-produit">
+               <p> Nom du produit </p>
+            </div>
+         </div>
+         <div class="element">
+            <div class="element-image">
+               <img src="{{ asset('image-sell-me/image-par-default.jpg') }}" alt="image">
+            </div>
+            <div class="element-title">
+               <h3> Vendeur </h3>
+            </div>
+            <div class="element-produit">
+               <p> Nom du produit </p>
+            </div>
+         </div>
+         <div class="element">
+            <div class="element-image">
+               <img src="{{ asset('image-sell-me/image-par-default.jpg') }}" alt="image">
+            </div>
+            <div class="element-title">
+               <h3> Vendeur </h3>
+            </div>
+            <div class="element-produit">
+               <p> Nom du produit </p>
+            </div>
+         </div>
+         <div class="element">
+            <div class="element-image">
+               <img src="{{ asset('image-sell-me/image-par-default.jpg') }}" alt="image">
+            </div>
+            <div class="element-title">
+               <h3> Vendeur </h3>
+            </div>
+            <div class="element-produit">
+               <p> Nom du produit </p>
+            </div>
+         </div>
+      </div>
+
+         </div>
+{% endblock %}

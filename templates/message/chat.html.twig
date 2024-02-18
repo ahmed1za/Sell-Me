@@ -1,0 +1,105 @@
+{% extends 'main/home.html.twig' %}
+{% block title %}
+    chat {{ parent() }}
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block body %}
+
+    <div class="chat-container">
+        <div class="chat-title">
+           <a href="{{ path('app_message') }}"><img src="{{ asset('icon/arrow left.png') }}" id="flechGaucheChat"></a>
+            <h3>{{ message.destinataire.nom }} {{ message.destinataire.prenom }}</h3>
+            <img src=" {{ asset('imageProduit/' ~ titre.image) }}">
+            <p> {{ message.titre }}</p>
+        </div>
+
+        <div class="message-chat">
+            <div class="message-container utilisateur-connecte">
+                <div class="message">
+                    <p>Message de l'utilisateur connecter</p>
+                </div>
+            </div>
+
+            <div class="message-container utilisateur-cible">
+                <div class="message">
+                    <p>Message de l'utilisateur cible</p>
+                </div>
+            </div>
+            <div class="message-container utilisateur-connecte">
+                <div class="message">
+                    <p>Message de l'utilisateur connecter</p>
+                </div>
+            </div>
+
+            <div class="message-container utilisateur-cible">
+                <div class="message">
+                    <p>Message de l'utilisateur cible</p>
+                </div>
+            </div>
+            <div class="message-container utilisateur-connecte">
+                <div class="message">
+                    <p>Message de l'utilisateur connecter</p>
+                </div>
+            </div>
+
+            <div class="message-container utilisateur-cible">
+                <div class="message">
+                    <p>Message de l'utilisateur cible</p>
+                </div>
+            </div>
+            <div class="message-container utilisateur-connecte">
+                <div class="message">
+                    <p>Message de l'utilisateur connecter</p>
+                </div>
+            </div>
+
+            <div class="message-container utilisateur-cible">
+                <div class="message">
+                    <p>Message de l'utilisateur cible</p>
+                </div>
+            </div>
+            <div class="message-container utilisateur-connecte">
+                <div class="message">
+                    <p>Message de l'utilisateur connecter bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb</p>
+                </div>
+            </div>
+
+            <div class="message-container utilisateur-cible">
+                <div class="message">
+                    <p>Message de l'utilisateur cible kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk</p>
+                </div>
+            </div>
+        </div>
+    <div class="chat-form">
+        <div class="select-file">
+            <img src="{{ asset('icon/bouton piece joint.png') }}">
+        </div>
+        <div class="select-image">
+            <img src="{{ asset('icon/bouton photo.png') }}">
+        </div>
+        <div class="chat-input">
+            <input type="text">
+        </div>
+        <div class="chat-bouton">
+            <button><img src="{{ asset('icon/bouton envoyer.png') }}"></button>
+        </div>
+
+
+
+    </div>
+
+    </div>
+
+
+
+{% endblock %}
+
+{% block footer %}
+    <div class="copyright">
+        <img src="{{ asset('img/logo sell me.png') }}" alt="Sell Me">
+        <div>    &copy;{{ "now"|date("Y") }} Sell Me </div>
+    </div>
+{% endblock %}
