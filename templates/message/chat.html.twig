@@ -11,87 +11,84 @@
     <div class="chat-container">
         <div class="chat-title">
            <a href="{{ path('app_message') }}"><img src="{{ asset('icon/arrow left.png') }}" id="flechGaucheChat"></a>
-            <h3>{{ message.destinataire.nom }} {{ message.destinataire.prenom }}</h3>
-            <img src=" {{ asset('imageProduit/' ~ titre.image) }}">
-            <p> {{ message.titre }}</p>
+            {% if messages is not empty %}
+                {% if messages[0].envoyeur is defined %}
+                    {% if app.user == messages[0].envoyeur %}
+                        <h3>{{ messages[0].destinataire.nom }} {{ messages[0].destinataire.prenom }}</h3>
+                    {% else %}
+                        <h3>{{ messages[0].envoyeur.nom }} {{ messages[0].envoyeur.prenom }}</h3>
+                    {% endif %}
+                {% else %}
+                    <h3>No envoyeur found for this message</h3>
+                {% endif %}
+            {% else %}
+                <h3>{{ destinataire.nom }} {{ destinataire.prenom }}</h3>
+            {% endif %}
+
+            <img src=" {{ asset('imageProduit/' ~ message.produit.image) }}">
+            <p> {{ message.produit.nom }}</p>
         </div>
 
         <div class="message-chat">
-            <div class="message-container utilisateur-connecte">
-                <div class="message">
-                    <p>Message de l'utilisateur connecter</p>
-                </div>
-            </div>
+            {% for mess in messages %}
+                {% if mess.envoyeur == app.user %}
+                    <div class="message-container utilisateur-connecte">
+                        <div class="message">
+                            <p>{{ mess.message }}</p>
+                            {% if mess.image %}
+                                <div class="message-image"><img src="{{ asset('imageChat/' ~ mess.image) }}" alt="{{ message.produit.nom }}"></div>
 
-            <div class="message-container utilisateur-cible">
-                <div class="message">
-                    <p>Message de l'utilisateur cible</p>
-                </div>
-            </div>
-            <div class="message-container utilisateur-connecte">
-                <div class="message">
-                    <p>Message de l'utilisateur connecter</p>
-                </div>
-            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="message-container utilisateur-cible">
+                        <div class="message">
+                            <p>{{ mess.message }}</p>
+                            {% if mess.image %}
+                                <div class="message-image"><img src="{{ asset('imageChat/' ~ mess.image) }}" alt="{{ message.produit.nom }}"></div>
 
-            <div class="message-container utilisateur-cible">
-                <div class="message">
-                    <p>Message de l'utilisateur cible</p>
-                </div>
-            </div>
-            <div class="message-container utilisateur-connecte">
-                <div class="message">
-                    <p>Message de l'utilisateur connecter</p>
-                </div>
-            </div>
-
-            <div class="message-container utilisateur-cible">
-                <div class="message">
-                    <p>Message de l'utilisateur cible</p>
-                </div>
-            </div>
-            <div class="message-container utilisateur-connecte">
-                <div class="message">
-                    <p>Message de l'utilisateur connecter</p>
-                </div>
-            </div>
-
-            <div class="message-container utilisateur-cible">
-                <div class="message">
-                    <p>Message de l'utilisateur cible</p>
-                </div>
-            </div>
-            <div class="message-container utilisateur-connecte">
-                <div class="message">
-                    <p>Message de l'utilisateur connecter bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb</p>
-                </div>
-            </div>
-
-            <div class="message-container utilisateur-cible">
-                <div class="message">
-                    <p>Message de l'utilisateur cible kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk</p>
-                </div>
-            </div>
+                                {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
         </div>
-    <div class="chat-form">
-        <div class="select-file">
-            <img src="{{ asset('icon/bouton piece joint.png') }}">
-        </div>
-        <div class="select-image">
-            <img src="{{ asset('icon/bouton photo.png') }}">
-        </div>
-        <div class="chat-input">
-            <input type="text">
-        </div>
-        <div class="chat-bouton">
-            <button><img src="{{ asset('icon/bouton envoyer.png') }}"></button>
-        </div>
+        <div class="chat-form">
+            {{ form_start(formchat, {'attr': {'id': 'formchat'}}) }}
 
+
+            <div class="select-file">
+                <label for="message_fichier"><img src="{{ asset('icon/bouton piece joint.png') }}"></label>
+                {{ form_row(formchat.fichier, {'attr': {'style': 'display: none;'}, 'label': false}) }}
+            </div>
+
+            <div class="select-image">
+                <label for="message_image"><img src="{{ asset('icon/bouton photo.png') }}"></label>
+                {{ form_row(formchat.image, {'attr': {'style': 'display: none;'}, 'label': false}) }}
+            </div>
+
+            <div class="chat-input">
+                {{ form_row(formchat.message, {'attr': {'id': 'formchat-message'}}) }}
+            </div>
+
+            <div class="chat-bouton">
+                <button id="buttonForm" type="submit"><img src="{{ asset('icon/bouton envoyer.png') }}"></button>
+                {{ form_row(formchat.submit, {'attr': {'style': 'display: none;'}, 'label': false}) }}
+            </div>
+
+            {{ form_end(formchat) }}
+
+        </div>
 
 
     </div>
 
-    </div>
+    {% for message in app.flashes('chat-error') %}
+        <div class="message-flash">
+            {{ message }}
+        </div>
+    {% endfor %}
 
 
 
@@ -102,4 +99,103 @@
         <img src="{{ asset('img/logo sell me.png') }}" alt="Sell Me">
         <div>    &copy;{{ "now"|date("Y") }} Sell Me </div>
     </div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+
+    const eventSource = new EventSource("{{ mercure('https://mercure.test/chat')|escape('js') }}");
+eventSource.onmessage = event => {
+    const messageContainer = document.querySelector('.message-chat');
+    const newMessage = document.createElement('div');
+    const eventData = JSON.parse(event.data);
+
+    const message = eventData.message;
+    const envoyeur = eventData.envoyeur;
+    const destinataire = eventData.destinataire;
+    const image = eventData.image;
+    const userId = {{ app.user.id }}; // Récupérez l'identifiant de l'utilisateur connecté depuis Symfony
+
+    // Déterminez la classe à appliquer en fonction de l'identifiant de l'expéditeur
+    let messageClass = (envoyeur === userId) ? 'utilisateur-connecte' : 'utilisateur-cible';
+
+    // Ajoutez la classe au nouvel élément de message
+    newMessage.classList.add('message-container');
+    newMessage.classList.add(messageClass);
+
+    // Ajoutez le contenu du message au nouvel élément
+    newMessage.innerHTML = `
+        <div class="message">
+            <p>${message}</p>
+             ${image ? `<div class="message-image"><img src="{{ asset('imageChat/') }}${image}" alt="Image"></div>` : ''}
+        </div>
+    `;
+
+
+    // Ajoutez le nouvel élément de message à la liste des messages
+    messageContainer.appendChild(newMessage);
+    scrollToBottom();
+}
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById("formchat");
+    const messageInput = document.getElementById("message_message");
+    const imageInput = document.getElementById("message_image");
+
+    console.log("Form:", form);
+    console.log("Message Input:", messageInput);
+    console.log("Image Input:", imageInput);
+
+    form.addEventListener("submit", function(event) {
+        event.preventDefault(); // Empêche le comportement par défaut du formulaire
+
+        // Effectuez ici votre logique pour envoyer les données du formulaire via AJAX
+        const formData = new FormData(form);
+        fetch("{{ path('app_chat', {'id': destinataire.id, 'produitId': message.produit.id}) }}", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                // Faire quelque chose après une soumission réussie du formulaire
+                // Par exemple, vider le champ de message
+                form.reset();
+            } else {
+                // Gérer les erreurs en cas d'échec de la soumission du formulaire
+                console.error("Erreur lors de la soumission du formulaire");
+            }
+        })
+        .catch(error => {
+            console.error("Erreur lors de la soumission du formulaire:", error);
+        });
+    });
+
+    messageInput.addEventListener("input", toggleSubmitButton);
+    imageInput.addEventListener("input", toggleSubmitButton);
+
+    // Fonction pour activer ou désactiver le bouton d'envoi en fonction de la saisie dans les champs
+    function toggleSubmitButton() {
+        console.log("Message Input Value:", messageInput.value);
+        console.log("Image Input Value:", imageInput.value);
+
+        const button = document.getElementById("buttonForm");
+        if (messageInput.value.trim() === "" && imageInput.value.trim() === "") {
+            button.disabled = true; // Désactive le bouton si les champs sont vides
+        } else {
+            button.disabled = false; // Active le bouton si au moins un champ est rempli
+        }
+    }
+});
+
+window.onload = function() {
+    scrollToBottom();
+};
+
+function scrollToBottom() {
+    var messageContainer = document.querySelector('.message-chat');
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+}
+
+</script>
 {% endblock %}

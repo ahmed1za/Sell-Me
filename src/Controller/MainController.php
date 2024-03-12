@@ -59,20 +59,6 @@ public function home(CategoriesRepository $categoriesRepository,Request $request
 }
 
 
-    /**
-     * @Route("/publish", name="publish")
-     */
-    public function publish(HubInterface $hub): Response
-    {
-        $update = new Update(
-            'https://mercure.test/chat',
-            json_encode(['message' => 'message envoyé!'])
-        );
 
-
-        $hub->publish($update);
-
-        return new Response('published!');
-    }
 
 }

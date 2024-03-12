@@ -29,7 +29,7 @@ class ContacterVendeurController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('message/chat.html.twig', [
+        return $this->redirectToRoute('app_chat', [
             'id'=>$id,
             'produitId'=>$produitId
         ]);

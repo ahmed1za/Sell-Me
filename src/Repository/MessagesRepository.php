@@ -6,6 +6,7 @@ use App\Entity\Messages;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+
 /**
  * @extends ServiceEntityRepository<Messages>
  *
@@ -16,9 +17,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class MessagesRepository extends ServiceEntityRepository
 {
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Messages::class);
+
     }
 
     public function add(Messages $entity, bool $flush = false): void
@@ -39,20 +42,42 @@ class MessagesRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Messages[] Returns an array of Messages objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('m.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+
+    public function findConversation($envoyeur, $destinataire){
+
+        $queryBuilder = $this->createQueryBuilder("m");
+        $queryBuilder->join("m.produit","mp")->addSelect("mp");
+        $queryBuilder->andWhere("m.envoyeur = :envoyeur Or m.destinataire = :destinataire ");
+        $queryBuilder->orWhere("m.envoyeur = :destinataire Or m.destinataire = :envoyeur ");
+        $queryBuilder->setParameter("envoyeur", $envoyeur);
+        $queryBuilder->setParameter("destinataire",$destinataire);
+        $query = $queryBuilder->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function findMessages($envoyeur, $destinataire) {
+        $queryBuilder = $this->createQueryBuilder("m");
+        $queryBuilder->join("m.produit", "mp");
+        $queryBuilder->where(
+            $queryBuilder->expr()->orX(
+                $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->eq('m.envoyeur', ':envoyeur'),
+                    $queryBuilder->expr()->eq('m.destinataire', ':destinataire')
+                ),
+                $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->eq('m.envoyeur', ':destinataire'),
+                    $queryBuilder->expr()->eq('m.destinataire', ':envoyeur')
+                )
+            )
+        );
+        $queryBuilder->setParameter('envoyeur', $envoyeur);
+        $queryBuilder->setParameter('destinataire', $destinataire);
+        $queryBuilder->orderBy("m.dateDeCreation","ASC");
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
 
 //    public function findOneBySomeField($value): ?Messages
 //    {

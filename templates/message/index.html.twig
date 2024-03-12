@@ -7,78 +7,40 @@
 {% endblock %}
 
 {% block body %}
+
    <div class="messagerie">
       <div class="messagerie-title">
          <h1>Messagerie</h1>
       </div>
       <div class="messagerie-elements">
-         <div class="element">
-            <div class="element-image">
-               <img src="{{ asset('image-sell-me/image-par-default.jpg') }}" alt="image">
-            </div>
-            <div class="element-title">
-               <h3> Vendeur </h3>
-            </div>
-            <div class="element-produit">
-               <p> Nom du produit </p>
-            </div>
-         </div>
-         <div class="element">
-            <div class="element-image">
-               <img src="{{ asset('imageProduit/huawei-matepad-pro-11-une-2-770.jpg') }}" alt="image">
 
-            </div>
-            <div class="element-title">
-               <h3> Vendeur </h3>
-            </div>
-            <div class="element-produit">
-               <p> Nom du produit </p>
-            </div>
-         </div>
-         <div class="element" >
-            <div class="element-image">
-               <img src="{{ asset('image-sell-me/image-par-default.jpg') }}" alt="image">
-            </div>
-            <div class="element-title">
-               <h3> Vendeur </h3>
-            </div>
-            <div class="element-produit">
-               <p> Nom du produit </p>
-            </div>
-         </div>
+         {% if conversations is not empty %}
+            {% for conversation in conversations %}
+               {% if app.user == conversation.destinataire %}
+               <a href="{{ path('app_chat', {'id': conversation.envoyeur.id, 'produitId': conversation.produit.id }) }}">
+               {% else %}
+                  <a href="{{ path('app_chat', {'id': conversation.destinataire.id, 'produitId': conversation.produit.id }) }}">
+               {% endif %}
          <div class="element">
             <div class="element-image">
-               <img src="{{ asset('image-sell-me/image-par-default.jpg') }}" alt="image">
+               <img src="{{ asset('imageProduit/'~ conversation.produit.image) }}" alt="image">
             </div>
             <div class="element-title">
-               <h3> Vendeur </h3>
+               {% if app.user == conversation.destinataire %}
+                  <h3> {{ conversation.envoyeur.nom }} </h3>
+               {% else %}
+                  <h3> {{ conversation.destinataire.nom }} </h3>
+               {% endif %}
             </div>
             <div class="element-produit">
-               <p> Nom du produit </p>
+               <p> {{ conversation.titre }} </p>
             </div>
          </div>
-         <div class="element">
-            <div class="element-image">
-               <img src="{{ asset('image-sell-me/image-par-default.jpg') }}" alt="image">
-            </div>
-            <div class="element-title">
-               <h3> Vendeur </h3>
-            </div>
-            <div class="element-produit">
-               <p> Nom du produit </p>
-            </div>
-         </div>
-         <div class="element">
-            <div class="element-image">
-               <img src="{{ asset('image-sell-me/image-par-default.jpg') }}" alt="image">
-            </div>
-            <div class="element-title">
-               <h3> Vendeur </h3>
-            </div>
-            <div class="element-produit">
-               <p> Nom du produit </p>
-            </div>
-         </div>
+               </a>
+            {% endfor %}
+           {% endif %}
+
+
       </div>
 
          </div>

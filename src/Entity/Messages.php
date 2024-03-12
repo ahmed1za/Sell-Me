@@ -59,6 +59,12 @@ class Messages
      */
     private $fichier;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Produit::class, inversedBy="messages")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $produit;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -156,6 +162,18 @@ class Messages
     public function setFichier(?string $fichier): self
     {
         $this->fichier = $fichier;
+
+        return $this;
+    }
+
+    public function getProduit(): ?Produit
+    {
+        return $this->produit;
+    }
+
+    public function setProduit(?Produit $produit): self
+    {
+        $this->produit = $produit;
 
         return $this;
     }

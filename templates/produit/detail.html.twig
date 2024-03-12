@@ -63,8 +63,9 @@
                 {% if produit.vendeur.nature is same as "particulier" %}
                     {% if app.user %}
                         <button class="contacter-vendeur"><a href="{{ path('app_chat',{'id': produit.vendeur.id ,'produitId': produit.id}) }}">Contacter le vendeur</a></button>
-                        {% else %}
-                            <button class="contacter-vendeur"><a href="{{ path('contacterVendeur',{'id': produit.vendeur.id ,'produitId': produit.id}) }}">Contacter le vendeur</a></button>
+                    {% else %}
+                        <button class="contacter-vendeur"><a href="{{ path('contacterVendeur',{'id': produit.vendeur.id ,'produitId': produit.id}) }}">Contacter le vendeur</a></button>
+
                     {% endif %}
 
                     <button class="ajouter-panier" disabled>Ajouter au panier</button>
