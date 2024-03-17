@@ -49,7 +49,7 @@ security:
         - { path: ^/images/create, roles: [ ROLE_USER, ROLE_ADMIN ] }
 
 
-        - { path: ^//commandes/ajout, roles: [ ROLE_USER, ROLE_ADMIN ] }
+        - { path: ^/commandes/ajout, roles: [ ROLE_USER, ROLE_ADMIN ] }
 
 
 

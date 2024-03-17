@@ -103,6 +103,7 @@ class MessageController extends AbstractController
             if ($formchat->isSubmitted() && $formchat->isValid()){
                 $message->setDateDeCreation(new \DateTime("+1 hour"));
                 $image = $formchat->get('image')->getData();
+                $fichier = $formchat->get('fichier')->getData();
 
 
 
@@ -117,6 +118,15 @@ class MessageController extends AbstractController
                     $message->setImage($fichier);
                 }
 
+                if (isset($fichier)) {
+                    $fichierNom = md5(uniqid()) . '.' . $fichier->guessExtension();
+                    $fichier->move(
+                        $this->getParameter('fichiers_directory_chat'),
+                        $fichierNom
+                    );
+                    $message->setFichier($fichierNom);
+                }
+
 
 
 
@@ -127,7 +137,8 @@ class MessageController extends AbstractController
                     "message"=>$message->getMessage(),
                     "envoyeur"=>$message->getEnvoyeur()->getId(),
                     "destinataire"=>$message->getDestinataire()->getId(),
-                    "image"=>$message->getImage()
+                    "image"=>$message->getImage(),
+                    "fichier"=>$message->getFichier()
                 ];
 
 

@@ -40,6 +40,12 @@ class Commande
      */
     private $commandeDetails;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Paiements::class, inversedBy="commande")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $paiements;
+
     public function __construct()
     {
         $this->commandeDetails = new ArrayCollection();
@@ -112,6 +118,18 @@ class Commande
                 $commandeDetail->setCommandeId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPaiements(): ?Paiements
+    {
+        return $this->paiements;
+    }
+
+    public function setPaiements(?Paiements $paiements): self
+    {
+        $this->paiements = $paiements;
 
         return $this;
     }

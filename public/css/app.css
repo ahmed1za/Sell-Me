@@ -341,7 +341,7 @@ article a {
     color: black;
     width: 500px;
     height: 500px;
-    border-radius: 0px 10px 10px 10px;
+    border-radius: 0 10px 10px 10px;
     margin-left: 15px;
     overflow-y: auto;
     z-index: 2;
@@ -596,14 +596,14 @@ transform: scale(1.1);
     margin-left: 15%;
     width: 120px;
     height: 30px;
-    border-radius: 15px 0px 0px 15px;
+    border-radius: 15px 0 0 15px;
     background: rgba(255, 255, 255, 0.40);
 }
 
 .barre_et_btn_de_recherche select option {
     width: 120px;
     height: 30px;
-    border-radius: 15px 0px 0px 15px;
+    border-radius: 15px 0 0 15px;
     background: rgba(255, 255, 255, 0.40);
 }
 
@@ -613,7 +613,7 @@ transform: scale(1.1);
     margin-left: 22.8%;
     width: 52%;
     height: 30px;
-    border-radius: 0px 15px 15px 0px;
+    border-radius: 0 15px 15px 0;
     border: 1px solid rgba(255, 255, 255, 0.50);
     color: #FFFFFF;
 }
@@ -632,7 +632,7 @@ transform: scale(1.1);
     border: none;
     margin-left: 72.5%;
     height: 20px;
-    border-radius: 0px 15px 15px 0px;
+    border-radius: 0 15px 15px 0;
 
 }
 
@@ -909,7 +909,18 @@ transform: scale(1.1);
     margin-right: 0;
 }
 
-
+.message-container .message-fichier{
+    height: 50px;
+    width: 50px;
+}
 .message-image{
 
+}
+.message-details {
+    display: none;
+}
+
+.list-commande {
+    border-bottom: white solid;
+    margin-bottom: 20px;
 }

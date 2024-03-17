@@ -83,7 +83,10 @@ class CartController extends AbstractController
         if (!$produit) {
             throw $this->createNotFoundException('Le produit n\'existe pas.');
         }
+        
         $panier = $session->get("panier", []);
+
+
         if (!empty($panier[$id])) {
 
             if ($produit->getQuantite() > $panier[$id] && $produit->getVendeur()->getNature() === "professionnel") {
@@ -133,7 +136,9 @@ class CartController extends AbstractController
         }
 
 
-        return $this->redirectToRoute('cart_index');
+        return $this->redirectToRoute('produits_detail',[
+            'id'=>$id
+        ]);
     }
 
 

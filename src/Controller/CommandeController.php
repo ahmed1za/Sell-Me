@@ -8,6 +8,7 @@ use App\Entity\CommandeDetails;
 use App\Form\FiltreType;
 use App\Form\SearchProduitType;
 use App\Repository\CategoriesRepository;
+use App\Repository\CommandeRepository;
 use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,7 +31,7 @@ class CommandeController extends AbstractController
                         Request $request
     ): Response
     {
-        $this->denyAccessUnlessGranted("ROLE_USER");
+       // $this->denyAccessUnlessGranted(["ROLE_ADMIN","ROLE_USER"]);
 
         $panier = $session->get('panier', []);
         if ($panier === []){
@@ -100,6 +101,102 @@ class CommandeController extends AbstractController
             'categories'=>$categories,
         ]);
     }
+
+    /**
+     * @Route("/list",name="list")
+     */
+    public function listCommandes(CommandeRepository $commandeRepository, ProduitRepository $produitRepository,CategoriesRepository $categoriesRepository, Request $request){
+
+        $user = $this->getUser();
+
+        if ($user){
+            $commandes = $commandeRepository->findBy(['user_id'=>$user]);
+        }
+
+
+
+        $categories = $categoriesRepository->findSixCategories();
+        $searchForm = $this->createForm(SearchProduitType::class);
+        $searchForm->handleRequest($request);
+
+        $filtre = new Filtre();
+        $filreForm = $this->createForm(FiltreType::class,$filtre);
+        $filreForm->handleRequest($request);
+
+        if ($filreForm->isSubmitted() && $filreForm->isValid()){
+            $produits = $produitRepository->filtrer($filtre);
+        }
+
+        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
+            $data = $searchForm->getData();
+            $nom = $data['nom'];
+            $categorie = $data['categorie'];
+
+            $resultats = $produitRepository->searchProduct($nom, $categorie);
+            return $this->render('produit/produitSearch.html.twig', [
+                'searchForm' => $searchForm->createView(),
+                'resultats' => $resultats,
+                'categories'=>$categories,
+                'filtreForm'=>$filreForm->createView()
+            ]);
+        }
+
+
+
+
+        return $this->render("commande/list.html.twig",[
+            'commandes'=>$commandes,
+            'searchForm' => $searchForm->createView(),
+            'categories'=>$categories,
+        ]);
+
+    }
+
+    /**
+     * @Route("/detail/{id}",name="detail")
+     */
+    public function detail($id, ProduitRepository $produitRepository,CategoriesRepository $categoriesRepository, CommandeRepository $commandeRepository,Request $request){
+
+      $commande = $commandeRepository->find($id);
+
+        $categories = $categoriesRepository->findSixCategories();
+        $searchForm = $this->createForm(SearchProduitType::class);
+        $searchForm->handleRequest($request);
+
+        $filtre = new Filtre();
+        $filreForm = $this->createForm(FiltreType::class,$filtre);
+        $filreForm->handleRequest($request);
+
+        if ($filreForm->isSubmitted() && $filreForm->isValid()){
+            $produits = $produitRepository->filtrer($filtre);
+        }
+
+        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
+            $data = $searchForm->getData();
+            $nom = $data['nom'];
+            $categorie = $data['categorie'];
+
+            $resultats = $produitRepository->searchProduct($nom, $categorie);
+            return $this->render('produit/produitSearch.html.twig', [
+                'searchForm' => $searchForm->createView(),
+                'resultats' => $resultats,
+                'categories'=>$categories,
+                'filtreForm'=>$filreForm->createView()
+            ]);
+        }
+
+
+
+
+
+        return $this->render('commande/index.html.twig', [
+            'commande' => $commande,
+            'searchForm' => $searchForm->createView(),
+            'categories'=>$categories,
+        ]);
+    }
+
+
 
 
     public function genererRef(){

@@ -10,46 +10,48 @@
 
     <div class="chat-container">
         <div class="chat-title">
-           <a href="{{ path('app_message') }}"><img src="{{ asset('icon/arrow left.png') }}" id="flechGaucheChat"></a>
-            {% if messages is not empty %}
-                {% if messages[0].envoyeur is defined %}
-                    {% if app.user == messages[0].envoyeur %}
-                        <h3>{{ messages[0].destinataire.nom }} {{ messages[0].destinataire.prenom }}</h3>
-                    {% else %}
-                        <h3>{{ messages[0].envoyeur.nom }} {{ messages[0].envoyeur.prenom }}</h3>
-                    {% endif %}
-                {% else %}
-                    <h3>No envoyeur found for this message</h3>
-                {% endif %}
+           <a href="{{ path('app_message') }}"><img src="{{ asset('icon/arrow left.png') }}" id="flechGaucheChat" alt="précédent"></a>
+           {% if app.user == message.produit.vendeur %}
+               <h3>Vendu par vous</h3>
             {% else %}
-                <h3>{{ destinataire.nom }} {{ destinataire.prenom }}</h3>
+               <h3>Vendu par : {{ message.produit.vendeur.nom }}</h3>
             {% endif %}
 
-            <img src=" {{ asset('imageProduit/' ~ message.produit.image) }}">
+            <img src=" {{ asset('imageProduit/' ~ message.produit.image) }}" alt="{{ message.produit.nom }}">
             <p> {{ message.produit.nom }}</p>
         </div>
 
         <div class="message-chat">
             {% for mess in messages %}
                 {% if mess.envoyeur == app.user %}
-                    <div class="message-container utilisateur-connecte">
+                    <div class="message-container utilisateur-connecte" onclick="toggleDetails(this)">
                         <div class="message">
                             <p>{{ mess.message }}</p>
                             {% if mess.image %}
                                 <div class="message-image"><img src="{{ asset('imageChat/' ~ mess.image) }}" alt="{{ message.produit.nom }}"></div>
 
                             {% endif %}
+                            {% if mess.fichier %}
+                                <div class="message-fichier"><a href="{{ asset('fichierChat/' ~ mess.fichier) }}"><img src="{{ asset('icon/bouton piece joint.png') }}" alt="piece jointe"></a></div>
+                                {% endif %}
+                            <div class="message-details"><p>envoyé par vous a : {{ mess.dateDeCreation|date('d/m/Y H:i:s') }}</p></div>
                         </div>
+
                     </div>
                 {% else %}
-                    <div class="message-container utilisateur-cible">
+                    <div class="message-container utilisateur-cible" onclick="toggleDetails(this)">
                         <div class="message">
                             <p>{{ mess.message }}</p>
                             {% if mess.image %}
                                 <div class="message-image"><img src="{{ asset('imageChat/' ~ mess.image) }}" alt="{{ message.produit.nom }}"></div>
 
                                 {% endif %}
+                            {% if mess.fichier %}
+                                <div class="message-fichier"><a href="{{ asset('fichierChat/' ~ mess.fichier) }}"><img src="{{ asset('icon/bouton piece joint.png') }}" alt="piece jointe"></a></div>
+                            {% endif %}
+                            <div class="message-details"><p>envoyé par {{ mess.destinataire.nom }} a : {{ mess.dateDeCreation|date('d/m/Y H:i:s') }}</p></div>
                         </div>
+
                     </div>
                 {% endif %}
             {% endfor %}
@@ -59,12 +61,12 @@
 
 
             <div class="select-file">
-                <label for="message_fichier"><img src="{{ asset('icon/bouton piece joint.png') }}"></label>
+                <label for="message_fichier"><img src="{{ asset('icon/bouton piece joint.png') }}" alt="piece jointe"></label>
                 {{ form_row(formchat.fichier, {'attr': {'style': 'display: none;'}, 'label': false}) }}
             </div>
 
             <div class="select-image">
-                <label for="message_image"><img src="{{ asset('icon/bouton photo.png') }}"></label>
+                <label for="message_image"><img src="{{ asset('icon/bouton photo.png') }}" alt="envoie d'image"></label>
                 {{ form_row(formchat.image, {'attr': {'style': 'display: none;'}, 'label': false}) }}
             </div>
 
@@ -73,7 +75,7 @@
             </div>
 
             <div class="chat-bouton">
-                <button id="buttonForm" type="submit"><img src="{{ asset('icon/bouton envoyer.png') }}"></button>
+                <button id="buttonForm" type="submit"><img src="{{ asset('icon/bouton envoyer.png') }}" alt="bouton envoyer"></button>
                 {{ form_row(formchat.submit, {'attr': {'style': 'display: none;'}, 'label': false}) }}
             </div>
 
@@ -114,6 +116,7 @@ eventSource.onmessage = event => {
     const envoyeur = eventData.envoyeur;
     const destinataire = eventData.destinataire;
     const image = eventData.image;
+    const fichier = eventData.fichier;
     const userId = {{ app.user.id }}; // Récupérez l'identifiant de l'utilisateur connecté depuis Symfony
 
     // Déterminez la classe à appliquer en fonction de l'identifiant de l'expéditeur
@@ -128,6 +131,7 @@ eventSource.onmessage = event => {
         <div class="message">
             <p>${message}</p>
              ${image ? `<div class="message-image"><img src="{{ asset('imageChat/') }}${image}" alt="Image"></div>` : ''}
+             ${fichier ? `<div class="message-fichier"><a href="{{ asset('fichierChat/') }}${fichier}" > <img src="{{ asset('icon/bouton piece joint.png') }}"> </a></div>` : ''}
         </div>
     `;
 
@@ -195,6 +199,15 @@ window.onload = function() {
 function scrollToBottom() {
     var messageContainer = document.querySelector('.message-chat');
     messageContainer.scrollTop = messageContainer.scrollHeight;
+}
+
+function toggleDetails(element) {
+    var details = element.querySelector('.message-details');
+    if (details.style.display === 'none') {
+        details.style.display = 'block'; // Si les détails sont visibles, les masquer
+    } else {
+        details.style.display = 'none'; // Sinon, les afficher
+    }
 }
 
 </script>

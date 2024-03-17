@@ -6,6 +6,7 @@
 parameters:
     images_directory: '%kernel.project_dir%/public/imageProduit'
     images_directory_chat: '%kernel.project_dir%/public/imageChat'
+    fichiers_directory_chat: '%kernel.project_dir%/public/fichierChat'
 services:
     # default configuration for services in *this* file
     _defaults:
