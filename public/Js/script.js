@@ -6,7 +6,7 @@ function previous(){
     sliderContent.scrollLeft -= widthSlider;
     const scrollLeft = sliderContent.scrollLeft;
 
-    console.log(scrollLeft,widthSlider-2);
+
 
     if(scrollLeft <=1000 ){
         console.log("on rentre dans la condition")
@@ -132,8 +132,9 @@ function precedent(){
 function suivant(){
     const widthSlider = document.querySelector(".slider_detail").offsetWidth;
     const sliderContent = document.querySelector(".slider_content_detail");
-    sliderContent.scrollLeft += widthSlider;
     const scrollLeft = sliderContent.scrollLeft;
+    sliderContent.scrollLeft += widthSlider;
+
 
 }
 

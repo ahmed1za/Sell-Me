@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %}Sell Me{% endblock %}</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/mediaQuery.css') }}">
 
     <script src="{{ asset('Js/script.js') }}"></script>
     <link rel="icon" href="{{ asset('img/sell-me-logo.png') }}">
@@ -38,12 +39,18 @@
                         {% if not app.user %}
                             <div class="identifier-vous"><a href="{{ path('app_login') }}"><img src="{{ asset('img/profil.png') }}" alt="s'identifier"> Bonjour, identifier vous</a></div>
                         {% else %}
-                            <div class="identifier-vous"><a href="#"><img src="{{ asset('img/profil.png') }}" alt="profil"> Bonjour, {{ app.user.nom }} {{ app.user.prenom }}</a></div>
+                            <div class="identifier-vous"><a href="{{ path('app_profil') }}">
+                                    {% if app.user.photoDeProfil is empty %}
+                                    <img src="{{ asset('img/profil.png') }}" alt="profil">
+                                    {% else %}
+                                        <img id="photoDeProfil_home" src="{{ asset('photoDeProfil/'~ app.user.photoDeProfil) }}" alt="photo de profil">
+                                    {% endif %}
+                                    Bonjour, {{ app.user.nom }} {{ app.user.prenom }}</a></div>
                         {% endif %}
                         <h4>Compte</h4>
 
                         {% if app.user %}
-                            <li><a href="#">Profil</a></li>
+                            <li><a href="{{ path('app_profil') }}">Profil</a></li>
                         {% else %}
                             <li><a href="{{ path('app_login') }}" title="Profil">Profil</a></li>
                         {% endif %}

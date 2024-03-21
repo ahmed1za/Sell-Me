@@ -145,6 +145,8 @@ public function findBestProduct(int $page = 1, int $limit = 30){
         }
         if (!empty($filtre->livraison)){
            $query = $query->andWhere('p.livraison = 1');
+        }else{
+            $query=$query->andWhere('p.livraison = 0');
         }
         if (!empty($filtre->etat)){
             $query = $query->andWhere('p.etat LIKE :etat')

@@ -97,6 +97,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $recu;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $photoDeProfil;
+
     public function __construct()
     {
         $this->produits = new ArrayCollection();
@@ -390,6 +395,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $recu->setDestinataire(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPhotoDeProfil(): ?string
+    {
+        return $this->photoDeProfil;
+    }
+
+    public function setPhotoDeProfil(?string $photoDeProfil): self
+    {
+        $this->photoDeProfil = $photoDeProfil;
 
         return $this;
     }

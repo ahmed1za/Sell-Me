@@ -2,12 +2,21 @@
 
 {% block body %}
     <div class="main-container">
-    <div class="filtre">
-        {{ form_start(filtreForm) }}
-        {{ form_widget(filtreForm) }}
-        <button>filtrer</button>
-        {{ form_end(filtreForm) }}
-    </div>
+        <div class="filtre">
+            {{ form_start(filtreForm, ) }}
+            {{ form_row(filtreForm.min) }}
+            {{ form_row(filtreForm.max) }}
+            <div class="filtre-categorie">
+                {{ form_row(filtreForm.categories) }}
+            </div>
+            <div class="filtre-livraison">
+                {{ form_row(filtreForm.livraison) }}
+            </div>
+            {{ form_row(filtreForm.nature) }}
+            {{ form_row(filtreForm.etat) }}
+            <button>filtrer</button>
+            {{ form_end(filtreForm) }}
+        </div>
 <section class="produit-list">
     {% for produit in produits %}
         <article class="articl-produit">

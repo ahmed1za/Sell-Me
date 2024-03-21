@@ -6,10 +6,8 @@ use App\Entity\Categories;
 
 class Filtre
 {
-     /**
-     * @var Categories[]
-     */
-    public $categories = [];
+
+    public $categories ;
 
     public int $max;
 

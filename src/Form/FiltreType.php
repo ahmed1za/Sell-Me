@@ -37,15 +37,19 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 
         ->add('categories',EntityType::class,[
         'class'=>Categories::class,
-        'label'=>false,
+        'choice_label'=> 'nom',
+        'multiple'=>false,
         'required'=>false,
-        'expanded'=>true,
-        'multiple'=>true
+        'placeholder'=>'choisir une categorie'
     ])
 
-        ->add('livraison',CheckboxType::class,[
-            'label'=>'Disponible en livraison',
-            'required'=>false
+        ->add('livraison',ChoiceType::class,[
+            "choices"=>[
+                'Oui'=>true,
+                'Non'=> false
+            ],
+            'label'=>'livraison',
+            'required'=>false,
         ])
         ->add('nature',ChoiceType::class,[
             "choices"=>[

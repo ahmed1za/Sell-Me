@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\ModifProfilFormType;
 use App\Form\RegistrationFormType;
 use App\Security\AppAuthenticator;
 use App\Services\MailSender;
@@ -45,7 +46,6 @@ class RegistrationController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
-            // do anything else you need here, like send an email
 
             $sender->NotificationDInscription($user);
 
@@ -58,6 +58,46 @@ class RegistrationController extends AbstractController
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/profil", name="app_profil")
+     */
+    public function profil():Response{
+        return $this->render('user/profil.html.twig');
+    }
+
+    /**
+     * @Route("/modifierProfil", name="app_profil_update")
+     */
+    public function modifProfil(Request $request, EntityManagerInterface $entityManager):Response{
+
+        $user = $this->getUser();
+
+        $modifForm= $this->createForm(ModifProfilFormType::class, $user);
+        $modifForm->handleRequest($request);
+        if ($modifForm->isSubmitted() && $modifForm->isValid()){
+            $photoDeProfil = $modifForm->get("photoDeProfil")->getData();
+
+            if (isset($photoDeProfil)){
+                $fichier = md5(uniqid()) . '.' . $photoDeProfil->guessExtension();
+                $photoDeProfil->move(
+                    $this->getParameter('photo_de_profil_directory'),
+                    $fichier
+                );
+                $user->setPhotoDeProfil($fichier);
+            }
+            $entityManager->flush();
+
+            return $this->redirectToRoute("app_profil");
+        }
+
+
+
+
+        return $this->render('user/modifProfil.html.twig',[
+            'modifForm'=>$modifForm->createView()
         ]);
     }
 }
