@@ -100,9 +100,11 @@ class Produit
     private $messages;
 
     /**
-     * @ORM\OneToOne(targetEntity=Publication::class, mappedBy="produit", cascade={"persist", "remove"})
+     * @ORM\Column(type="string", length=255)
      */
-    private $publication;
+    private $statut;
+
+
 
     public function __construct()
     {
@@ -347,20 +349,17 @@ class Produit
         return $this;
     }
 
-    public function getPublication(): ?Publication
+    public function getStatut(): ?string
     {
-        return $this->publication;
+        return $this->statut;
     }
 
-    public function setPublication(Publication $publication): self
+    public function setStatut(string $statut): self
     {
-        // set the owning side of the relation if necessary
-        if ($publication->getProduit() !== $this) {
-            $publication->setProduit($this);
-        }
-
-        $this->publication = $publication;
+        $this->statut = $statut;
 
         return $this;
     }
+
+
 }
