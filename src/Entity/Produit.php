@@ -99,6 +99,11 @@ class Produit
      */
     private $messages;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Publication::class, mappedBy="produit", cascade={"persist", "remove"})
+     */
+    private $publication;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -338,6 +343,23 @@ class Produit
                 $message->setProduit(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPublication(): ?Publication
+    {
+        return $this->publication;
+    }
+
+    public function setPublication(Publication $publication): self
+    {
+        // set the owning side of the relation if necessary
+        if ($publication->getProduit() !== $this) {
+            $publication->setProduit($this);
+        }
+
+        $this->publication = $publication;
 
         return $this;
     }

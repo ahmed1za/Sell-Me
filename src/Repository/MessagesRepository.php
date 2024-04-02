@@ -79,6 +79,17 @@ class MessagesRepository extends ServiceEntityRepository
     }
 
 
+    public function unreadMessageCount($destinataire){
+       $queryBuilder =  $this->createQueryBuilder('m')
+           ->select('COUNT(m.id)')
+           ->andWhere('m.destinataire = :destinataire')
+           ->andWhere('m.est_lu = :est_lu')
+           ->setParameter('destinataire', $destinataire)
+           ->setParameter('est_lu',false);
+
+          return $queryBuilder->getQuery()->getResult();
+    }
+
 //    public function findOneBySomeField($value): ?Messages
 //    {
 //        return $this->createQueryBuilder('m')

@@ -131,18 +131,28 @@ class ProduitController extends AbstractController
         $produit->setVendeur($user);
         $produitForm = $this->createForm(ProduitType::class, $produit);
         $produitForm->handleRequest($request);
+            $image = $produitForm->get('image')->getData();
 
         if ($produitForm->isSubmitted() && $produitForm->isValid()){
             if ($produit->getVendeur()->getNature() === 'professionnel'){
                 $produit->setLivraison(true);
             }
-            $image = $produitForm->get('image')->getData();
-            $fichier = md5(uniqid()) . '.' . $image->guessExtension();
-            $image->move(
-                $this->getParameter('images_directory'),
-                $fichier
-            );
-            $produit->setImage($fichier);
+
+            if ($produit->getVendeur()->getNature() === 'particulier')
+            {
+                $produit->setEtat("Occasion");
+            }
+
+            if (isset($image)){
+                $fichier = md5(uniqid()) . '.' . $image->guessExtension();
+                $image->move(
+                    $this->getParameter('images_directory'),
+                    $fichier
+                );
+                $produit->setImage($fichier);
+            }
+
+
             $produit->setDateDeCreation(new \DateTime("+1 hour"));
             $produit->setDateDeModification(new \DateTime("+1 hour"));
             $entityManager->persist($produit);
@@ -227,26 +237,52 @@ class ProduitController extends AbstractController
 
 
 
-/**
-     * @Route("/demo",name="demo")
+    /**
+     * @Route("/mesAnnonces",name="mesAnnonces")
      */
-/*    public function demo(EntityManagerInterface $entityManager){
-        $produit = new Produit();
 
-        $produit->setNom("Macbook Pro");
-        $produit->setDiscription("je met en vente mon ordi en excelent état de fonctionnement, cause de la vente achat d'un nouveau pc");
-        $produit->setEtat("occasion");
-        $produit->setPrix(780);
-        $produit->setQuantite(1);
-        $produit->setDateDeCreation(new \DateTime("+1 hour"));
-        $produit->setDateDeModification(new \DateTime("+1 hour"));
-        $produit->setImage("raw.jpg");
-        $produit->setCategories("informatique");
+    public function mesAnnonce(ProduitRepository $produitRepository, CategoriesRepository $categoriesRepository,Request $request):Response{
+        $user = $this->getUser();
 
-        $entityManager->persist($produit);
-        $entityManager->flush();
+        if ($user){
+            $produits = $produitRepository->findBy(['Vendeur'=>$user]);
+        }
+        $categories = $categoriesRepository->findSixCategories();
+        $searchForm = $this->createForm(SearchProduitType::class);
+        $searchForm->handleRequest($request);
 
-        return $this->render('produit/create.html.twig');
+        $filtre = new Filtre();
+        $filreForm = $this->createForm(FiltreType::class,$filtre);
+        $filreForm->handleRequest($request);
 
-    }*/
+        if ($filreForm->isSubmitted() && $filreForm->isValid()){
+            $produits = $produitRepository->filtrer($filtre);
+        }
+
+        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
+            $data = $searchForm->getData();
+            $nom = $data['nom'];
+            $categorie = $data['categorie'];
+
+            $resultats = $produitRepository->searchProduct($nom, $categorie);
+            return $this->render('produit/produitSearch.html.twig', [
+                'searchForm' => $searchForm->createView(),
+                'resultats' => $resultats,
+                'categories'=>$categories,
+                'filtreForm'=>$filreForm->createView()
+            ]);
+        }
+
+        return $this->render('produit/mesAnnonces.html.twig',[
+           'searchForm'=> $searchForm->createView(),
+            'categories'=>$categories,
+            'produits'=>$produits
+        ]);
+
+
+    }
+
+
+
 }
+

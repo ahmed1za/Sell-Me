@@ -23,6 +23,12 @@
                 <button><img src="{{ asset('icon/loop.png') }}" alt="rechercher"></button>
                 {{ form_end(searchForm) }}
         </div>
+        <div class="messagerie-logo">
+            <a href="{{ path('app_message') }}"><img src="{{ asset('icon/mail icon.png') }}" alt="messagerie"></a>
+        </div>
+        <div class="detail-messagerie">
+            <div>{{ app.session.get('messageNonLu', 0) }}</div>
+        </div>
         <div class="panier">
 
             <a href="{{ path('cart_index') }}"><img src="{{ asset('image-sell-me/Panier.png') }}" alt="panier"> panier</a>
@@ -68,6 +74,9 @@
                                 <li><a href="{{ path('admin_dashboard') }}" title="dashboard">Tableau de bord</a></li>
                                 <li><a href="{{ path('categories_create') }}" title="dashboard">ajouter une catégorie</a></li>
                             {% endif %}
+                            {%if app.user.produits %}
+                                <li><a href="{{ path('produits_mesAnnonces') }}" title="Mes annonces">Mes annonces</a></li>
+                                {% endif %}
 
                             {% if app.user.commandes %}
                                 <li><a href="{{ path('commandes_list') }}">Mes commandes</a></li>

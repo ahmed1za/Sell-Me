@@ -60,6 +60,13 @@
             <div class="produit-quantite">Quantité : {{ produit.quantite }}</div>
             <div ><label title="{{ produit.vendeur.nom }} {{ produit.vendeur.prenom }} {{ produit.vendeur.produits|length }}">vendu par : {{ produit.vendeur.prenom }}</label></div>
             <div class="produit-actions">
+                {% if produit.quantite is same as 0 %}
+                {% if produit.vendeur.nature is same as "particulier" %}
+                    <div>Produit Vendu</div>
+                {% else %}
+                    <div>Produit momentanement indisponible</div>
+                {% endif %}
+                {% else %}
                 {% if produit.vendeur.nature is same as "particulier" %}
                     {% if app.user %}
                         <button class="contacter-vendeur"><a href="{{ path('app_chat',{'id': produit.vendeur.id ,'produitId': produit.id}) }}">Contacter le vendeur</a></button>
@@ -73,37 +80,8 @@
                     <button class="contacter-vendeur" disabled>Contacter le vendeur</button>
                     <button class="ajouter-panier"><a href=" {{ path('cart_add',{'id': produit.id})  }}">Ajouter au panier</a></button>
                 {% endif %}
+                {% endif %}
             </div>
         </div>
     </div>
 {% endblock %}
-
-
-{#{% block body %}
-    <div class="produit-container">
-        <div class="produit-image">
-            {% if produit.image is defined %}
-                <img src="{{ asset('imageProduit/' ~ produit.image) }}" alt="{{ produit.nom }}">
-            {% elseif produit.images is defined and produit.images|length > 0 %}
-                <img src="{{ asset('imageProduit/' ~ produit.images[0].image) }}" alt="images {{ produit.nom }}">
-            {% endif %}
-            <section class="images">
-                {% for image in produit.images %}
-                    <div>
-                        <img src="{{ asset('imageProduit/' ~ image.image) }}" alt="images {{ produit.nom }}">
-                    </div>
-                {% endfor %}
-            </section>
-        </div>
-        <div class="produit-details">
-            <h2>{{ produit.nom }}</h2>
-            <div class="produit-etat">État : {{ produit.etat }}</div>
-            <div class="produit-description">Description : {{ produit.description }}</div>
-        </div>
-        <div class="produit-pricing">
-            <div class="produit-prix">Prix : {{ produit.prix }} €</div>
-            <div class="produit-quantite">Quantité : {{ produit.quantite }}</div>
-        </div>
-    </div>
-{% endblock %}
-#}

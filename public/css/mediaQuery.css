@@ -25,4 +25,129 @@
 
 
     }
+
+    .barre_et_btn_de_recherche select{
+        display: none;
+    }
+    .barre_et_btn_de_recherche input{
+        margin-left: 15%;
+        border-radius:15px 15px 15px 15px;
+    }
+    .barre_et_btn_de_recherche button{
+        margin-left: 60%;
+
+    }
+
+    .filtre {
+
+        position: absolute;
+        top: 200px;
+        margin-left: 2%;
+        margin-bottom: 20px;
+        left: 0;
+        width: 93%;
+        height: 20%;
+        word-wrap: break-word;
+        overflow: auto;
+        background-color: #FFFFFF;
+        border-bottom: 1px solid #ccc;
+
+    }
+    .sub-menu {
+        z-index: 1;
+    }
+
+    .main-container {
+        margin-top: 22%; /* Pour éviter que le contenu soit masqué par le filtre fixé en haut */
+    }
+
+    .messagerie-logo {
+        position: absolute;
+        top : 26px;
+        right: 20%;
+
+    }
+    .detail-messagerie{
+        right: 21%;
+    }
+    .messagerie-logo img {
+        width: 40px;
+        height: 30px;
+    }
+
+    .panier img {
+        width: 20px;
+        height: 20px;
+    }
+.message-chat{
+    min-height:200px ;
+    max-height: 200px;
+}
+.chat-input{
+    width: 40%;
+}
+.chat-title{
+    max-height: 50px;
+}
+.chat-title h3 {
+    font-size: small;
+}
+.chat-title img{
+    height: 40px;
+}
+}
+
+@media screen and (max-width: 590px){
+
+    .filtre {
+
+        position: absolute;
+        top: 255px;
+        margin-left: 2%;
+        margin-bottom: 20px;
+        left: 0;
+        width: 90%;
+        height: 20%;
+        word-wrap: break-word;
+        overflow: auto;
+        background-color: #FFFFFF;
+        border-bottom: 1px solid #ccc;
+
+    }
+
+    .main-container {
+        margin-top: 35%; /* Pour éviter que le contenu soit masqué par le filtre fixé en haut */
+    }
+
+    .barre_et_btn_de_recherche input{
+        margin-left: 17%;
+
+    }
+    .barre_et_btn_de_recherche button{
+        margin-left: 60%;
+
+    }
+    .messagerie-logo{
+        right: 20%;
+    }
+
+    .messagerie-logo img {
+        width: 40px;
+        height: 30px;
+    }
+
+    .panier img {
+        width: 20px;
+        height: 20px;
+    }
+    .chat-input{
+        width: 20%;
+    }
+    .select-file,
+    .select-image,
+    .chat-input,
+    .chat-bouton {
+
+        margin-left: 5px;
+    }
 }

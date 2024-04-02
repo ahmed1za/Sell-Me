@@ -1,1 +1,40 @@
-Bravo !
+{% extends 'baseForm.html.twig' %}
+{% block titleForm %}
+    {{ parent() }} |Paiement Réussi
+{% endblock %}
+
+{% block bodyForm%}
+    <div>Paiement Valider</div>
+    <div>
+        <div>
+            votre commande sera expédiée a :
+            <div>{{ commande.userId.nom }}
+            </div>
+            <div>
+            {{ commande.userId.ville }},{{ commande.userId.codePostal }}
+            </div>
+            <div>{{ commande.userId.pays }}</div>
+        </div>
+        <div>
+            commande n° : {{ commande.reference }}
+        </div>
+        <div>
+            Details de la commande :
+            {% for detail in commande.commandeDetails %}
+            <div> {{ detail.produitId.nom }}</div>
+                <div>{{ detail.quantite}}</div>
+                <div><img src="{{ asset('imageProduit/'~ detail.produitId.image) }}" style="height: 90px ; width: 90px"></div>
+                <div>prix unitaire : {{ detail.produitId.prix }} €</div>
+            {% endfor %}
+        </div>
+        <div>
+            reference du paiement : {{ data.reference }}
+        </div>
+        <div>
+            date et heure du paiement : {{ data.dateDePaiment|date('D, d M Y H:i:s') }}
+        </div>
+        <div>
+            Montant du Paiement : {{ data.montant}} €
+        </div>
+    </div>
+{% endblock %}

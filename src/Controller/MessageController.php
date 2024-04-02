@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,21 +25,46 @@ class MessageController extends AbstractController
     /**
      * @Route("/message", name="app_message")
      */
-    public function index(CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository,MessagesRepository $messagesRepository,Request $request): Response
+    public function index(CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository,MessagesRepository $messagesRepository,Request $request,SessionInterface $session): Response
     {
         $user = $this->getUser();
 
         $conversations = $messagesRepository->findConversation($user,$user);
+        $nombreNonLu = $messagesRepository->unreadMessageCount($user);
+
+        $messageNonLu = reset($nombreNonLu[0]);
+        $session->set('messageNonLu',$messageNonLu);
+
+
 
         $distinctConversations = [];
         foreach ($conversations as $conversation) {
-            $conversationKey = $conversation->getProduit()->getId(); // Utilisez un identifiant unique pour chaque conversation
-            if (!isset($distinctConversations[$conversationKey])) {
-                $distinctConversations[$conversationKey] = $conversation;
+            $envoyeurId = $conversation->getEnvoyeur()->getId();
+            $destinataireId = $conversation->getDestinataire()->getId();
+            $produitId = $conversation->getProduit()->getId();
+
+
+            if ($conversation->isEstLu())
+            {
+                $conversation->hasUnreadMessage = false;
+            }else{
+                $conversation->hasUnreadMessage = true;
             }
+
+
+            $participants = [$envoyeurId, $destinataireId];
+            sort($participants);
+
+            $conversationKey = $produitId . '_' . implode('_', $participants);
+
+            if (!isset($distinctConversations[$conversationKey])) {
+                $distinctConversations[$conversationKey] = [];
+            }
+            $distinctConversations[$conversationKey][] = $conversation;
         }
-
-
+        foreach ($distinctConversations as $dist){
+            $messagerie[]=  $dist[0];
+        }
 
         $categories = $categoriesRepository->findSixCategories();
         $searchForm = $this->createForm(SearchProduitType::class);
@@ -68,7 +94,9 @@ class MessageController extends AbstractController
             return $this->render('message/index.html.twig',[
                 'searchForm' => $searchForm->createView(),
                 'categories'=>$categories,
-                'conversations'=>$distinctConversations
+                'conversations'=>$messagerie,
+                'nombreNonLu'=>$nombreNonLu
+
             ]);
         }
 
@@ -77,9 +105,17 @@ class MessageController extends AbstractController
      /**
      * @Route("/chat/{id}/{produitId}", name="app_chat")
      */
-    public function chat(int $id,int $produitId,CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository,MessagesRepository
-        $messagesRepository,UserRepository $userRepository,Request $request, EntityManagerInterface $entityManager,
-    HubInterface $hub): Response
+    public function chat(int $id,
+                         int $produitId,
+                         CategoriesRepository $categoriesRepository,
+                         ProduitRepository $produitRepository,
+                         MessagesRepository $messagesRepository,
+                         UserRepository $userRepository,
+                         Request $request,
+                         EntityManagerInterface $entityManager,
+                         HubInterface $hub,
+                         SessionInterface $session
+                            ): Response
     {
 
 
@@ -88,6 +124,14 @@ class MessageController extends AbstractController
         $produit = $produitRepository->find($produitId);
 
         $messages = $messagesRepository->findMessages($user,$destinataire) ;
+        foreach ($messages as $mess){
+            if ($mess->getDestinataire() === $user && !$mess->isEstLu()){
+                $mess->setEstLu(true);
+                $entityManager->persist($mess);
+            }
+        }
+
+        $entityManager->flush();
 
             $message = new Messages();
             $message->setEnvoyeur($user);
@@ -150,6 +194,10 @@ class MessageController extends AbstractController
             }
 
 
+        $nombreNonLu = array_sum($messagesRepository->unreadMessageCount($user));
+
+
+        $session->set('messageNonLu',$nombreNonLu);
 
 
 

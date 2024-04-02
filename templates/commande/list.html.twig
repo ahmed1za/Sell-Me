@@ -17,8 +17,10 @@
     {% for commande in commandes %}
 <div class="list-commande">
         <a href="{{ path('commandes_detail',{'id': commande.id}) }}" >
+            <ul>
             <li>Reference de la commande :  {{ commande.reference}}</li>
-            {% for detail in commande.commandeDetails %}
+            </ul>
+                {% for detail in commande.commandeDetails %}
                 <p>Prix de la commande :  {{ detail.prix }}</p>
             {% endfor %}
             {% if commande.paiements != null %}

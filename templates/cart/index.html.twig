@@ -10,61 +10,47 @@
 {% endblock %}
 
 {% block body %}
+    <div class="cart-container">
+   <div class="cart">
     <h1>Votre panier</h1>
-
-    <table class="custom-table">
-        <thead>
-        <tr>
-            <th class="product-header">Produit</th>
-            <th class="price-header">Prix</th>
-            <th class="quantity-header">Quantité</th>
-            <th class="total-header">Total</th>
-            <th class="action-header">Action</th>
-        </tr>
-        </thead>
-        <tbody>
         {% for element in dataPanier %}
-            <tr>
-                <td>
-                    <div class="td-info">
-                        <a href="{{ path('produits_detail', {'id': element.produit.id}) }}" title="Voir les détails | quantité disponible {{ element.produit.quantite }}">
-                            {{ element.produit.nom  }} <img src="{{ asset('imageProduit/' ~ element.produit.image) }}" alt="{{ element.produit.nom }}">
-                        </a>
+            <div class="cart-produit">
+                <a href="{{ path('produits_detail', {'id': element.produit.id}) }}" title="Voir les détails | quantité disponible {{ element.produit.quantite }}">
+                    <img src="{{ asset('imageProduit/' ~ element.produit.image) }}" alt="{{ element.produit.nom }}">
+                    <div class="cart-details">
+                        <div class="cart-produit-content">
+                            <div>
+                                <h2>{{ element.produit.nom }}</h2>
+                            </div>
+                            <div>
+                                <h3>{{ element.produit.prix }} €</h3>
+                            </div>
+                            <div>{{ element.produit.categorie }}</div>
+                            <div class="cart-produit-content-etat">{{ element.produit.etat }}</div>
+                        </div>
+                        <div class="cart-produit-action">
+                            <div class="quantite-selectionner"> {{ element.quantite}} </div>
+                          <div>  <a href="{{ path('cart_ajouter', {'id': element.produit.id}) }}" ><img src="{{ asset('icon/plus_icon-icons.com_66718.png') }}"></a>
+                           <a href="{{ path('cart_remove', {'id': element.produit.id}) }}" ><img src="{{ asset('icon/minus_icon-icons.com_66722.png') }}"></a></div>
+                           <div> <a href="{{ path('cart_delete', {'id': element.produit.id}) }}" >Supprimer</a></div>
+                        </div>
                     </div>
+                </a>
+            </div>
 
-                </td>
-                <td>{{ element.produit.prix }} €</td>
-                <td>{{ element.quantite }}</td>
-                <td>{{ element.quantite * element.produit.prix }} €</td>
-                <td>
-                    <a href="{{ path('cart_add', {'id': element.produit.id}) }}" class="add-button">Ajouter</a>
-                    <a href="{{ path('cart_remove', {'id': element.produit.id}) }}" class="remove-button">Retirer</a>
-                    <a href="{{ path('cart_delete', {'id': element.produit.id}) }}" class="delete-button">supprimer</a>
-                </td>
-            </tr>
+
+
         {% else %}
-            <tr>
-                <td colspan="5">Pas de produit dans votre panier</td>
-            </tr>
+
+                Pas de produit dans votre panier
         {% endfor %}
+        </div>
+        <div class="cart-action">
+      <div><div id="total">Total :</div>    <div id="total-panier">{{ total }} €</div> </div>
+            <div class="add-button"> <a href="{{ path('commandes_add') }}" >Passer commande</a></div>
+                    <div class="delete-button"><a href="{{ path('cart_deleteAll') }}" >Vider le panier</a></div>
 
-        </tbody>
-        <tfoot>
-        <tr>
-            <td colspan="3">Total</td>
-            <td>{{ total }} €</td>
-        </tr>
-        <tr>
-            <td colspan="5" class="cart-commande">
-                <div class="center-content">
-                    <a href="{{ path('cart_deleteAll') }}" class="delete-button">Vider le panier</a>
-                    <a href="{{ path('commandes_add') }}" class="add-button">Valider le panier</a>
                 </div>
-            </td>
-        </tr>
-
-        </tfoot>
-    </table>
 
 
             {% for message in app.flashes('error-cart') %}
@@ -79,7 +65,7 @@
                 </div>
             {% endfor %}
 
-
+    </div>
 {% endblock %}
 
 

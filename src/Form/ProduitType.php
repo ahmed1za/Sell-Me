@@ -48,6 +48,9 @@ class ProduitType extends AbstractType
             ->add('image',FileType::class,[
         'label'=>false,
         'multiple'=>false,
+               'attr' => [
+                   'accept' => 'image/*',
+               ],
         'mapped'=>false,
         'required'=>false
     ])

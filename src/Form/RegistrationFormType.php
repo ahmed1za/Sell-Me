@@ -28,7 +28,6 @@ class RegistrationFormType extends AbstractType
                     'Un particulier' => 'particulier',
                     'Un professionnel' => 'professionnel',
                       ],
-                'expanded' => true,
                 'multiple' => false,
                 'label' => 'vous êtes :',
             ])
