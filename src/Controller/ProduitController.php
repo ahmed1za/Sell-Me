@@ -29,7 +29,7 @@ class ProduitController extends AbstractController
      */
     public function list(ProduitRepository $produitRepository,CategoriesRepository $categoriesRepository, Request $request): Response
     {
-        $page = $request->query->getInt('page', 1); // Par défaut, page 1 si non spécifiée dans l'URL
+        $page = $request->query->getInt('page', 1);
         $limit = 30;
 
         $produits = $produitRepository->findBestProduct($page,$limit);
@@ -155,6 +155,7 @@ class ProduitController extends AbstractController
 
             $produit->setDateDeCreation(new \DateTime("+1 hour"));
             $produit->setDateDeModification(new \DateTime("+1 hour"));
+            $produit->setStatut("en attente de validation");
             $entityManager->persist($produit);
             $entityManager->flush();
 

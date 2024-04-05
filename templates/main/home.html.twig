@@ -70,10 +70,7 @@
                             {% endif %}
                             <li><a href="#" title="Parametres">Parametres</a></li>
                             <li><a href="{{ path('app_message') }}" title="Messagerie">Messagerie</a></li>
-                            {% if is_granted("ROLE_ADMIN") %}
-                                <li><a href="{{ path('admin_dashboard') }}" title="dashboard">Tableau de bord</a></li>
-                                <li><a href="{{ path('categories_create') }}" title="dashboard">ajouter une catégorie</a></li>
-                            {% endif %}
+
                             {%if app.user.produits %}
                                 <li><a href="{{ path('produits_mesAnnonces') }}" title="Mes annonces">Mes annonces</a></li>
                                 {% endif %}
@@ -84,7 +81,9 @@
 
                             <li><a href="{{ path('app_logout') }}" title="Se déconnecter">Se déconnecter</a></li>
                         {% endif %}
-
+                        {% if is_granted("ROLE_ADMIN") %}
+                            <li class="button-sub-menu"><button><a href="{{ path('admin_dashboard') }}" title="dashboard">Tableau de bord</a></button></li>
+                        {% endif %}
                         <h4>Choisir une catégorie</h4>
                         {% for categorie in categories %}
                             <li><a href="{{ path('produits_categorie', {'categorie': categorie.nom}) }}" title="{{ categorie.nom }}">{{ categorie.nom }}</a></li>

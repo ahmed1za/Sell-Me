@@ -16,7 +16,11 @@
         {% for element in dataPanier %}
             <div class="cart-produit">
                 <a href="{{ path('produits_detail', {'id': element.produit.id}) }}" title="Voir les détails | quantité disponible {{ element.produit.quantite }}">
+                    {% if element.produit.image != "" %}
                     <img src="{{ asset('imageProduit/' ~ element.produit.image) }}" alt="{{ element.produit.nom }}">
+                    {% else %}
+                        <img src="{{ asset('image-sell-me/image-par-default.jpg') }}" alt="{{element.produit.nom }}">
+                        {% endif %}
                     <div class="cart-details">
                         <div class="cart-produit-content">
                             <div>

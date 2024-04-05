@@ -102,12 +102,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $photoDeProfil;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Signalisation::class, mappedBy="utilisateurSignale", orphanRemoval=true)
+     */
+    private $signalisations;
+
     public function __construct()
     {
         $this->produits = new ArrayCollection();
         $this->commandes = new ArrayCollection();
         $this->envoyer = new ArrayCollection();
         $this->recu = new ArrayCollection();
+        $this->signalisations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -407,6 +413,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhotoDeProfil(?string $photoDeProfil): self
     {
         $this->photoDeProfil = $photoDeProfil;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Signalisation>
+     */
+    public function getSignalisations(): Collection
+    {
+        return $this->signalisations;
+    }
+
+    public function addSignalisation(Signalisation $signalisation): self
+    {
+        if (!$this->signalisations->contains($signalisation)) {
+            $this->signalisations[] = $signalisation;
+            $signalisation->setUtilisateurSignale($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSignalisation(Signalisation $signalisation): self
+    {
+        if ($this->signalisations->removeElement($signalisation)) {
+            // set the owning side to null (unless already changed)
+            if ($signalisation->getUtilisateurSignale() === $this) {
+                $signalisation->setUtilisateurSignale(null);
+            }
+        }
 
         return $this;
     }

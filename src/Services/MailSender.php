@@ -30,4 +30,35 @@ class MailSender
 
 $this->mailer->send($message);
 }
+
+public function NotificationDeRefus($user,$annonce) : void{
+
+
+
+        $message = new Email();
+        $message->from("admin@sell-me.com")
+            ->to($user)
+            ->subject("refus de votre annonce")
+            ->html("<h1>Annonce : </h1>". $annonce ."<article>Bonjour votre annonce a été examiner, le produit que vous essayer
+de vendre ou bien les images utiliser sont en désacord avec nos condition general de vente </article>" );
+
+
+$this->mailer->send($message);
+}
+
+    public function NotificationDeValidation($user,$annonce) : void{
+
+//file_put_contents("test.txt",$user->getEmail());
+
+        $message = new Email();
+        $message->from("admin@sell-me.com")
+            ->to($user)
+            ->subject("Annonce en ligne")
+            ->html("<h1>Annonce : </h1>. $annonce . <article>Bonjour , nous avons le plaisir de vous annoncer que votre publication a été mise en ligne </article>");
+
+
+        $this->mailer->send($message);
+    }
+
+
 }

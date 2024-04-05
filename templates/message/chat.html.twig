@@ -19,6 +19,14 @@
 
             <img src=" {{ asset('imageProduit/' ~ message.produit.image) }}" alt="{{ message.produit.nom }}">
             <p> {{ message.produit.nom }}</p>
+
+
+                <div class="menu-item-chat"><a href="#"><img src="{{ asset('img/menu-vertical.png') }}" id="clipart" alt="menu lateral"></a>
+                    <ul class="sub-menu-chat">
+                        <li><a href="{{ path('signalisation_create', {'id': destinataire.id}) }}">Signaler l'utilisateur</a></li>
+                    </ul>
+                </div>
+
         </div>
 
         <div class="message-chat">
@@ -210,5 +218,23 @@ function toggleDetails(element) {
     }
 }
 
+
+
+var menuItems = document.querySelectorAll('.menu-item-chat');
+
+    // Parcourez chaque élément parent et ajoutez un gestionnaire d'événement de clic
+    menuItems.forEach(function(item) {
+        item.addEventListener('click', function() {
+            // Sélectionnez le sous-menu correspondant à l'élément parent actuel
+            var subMenu = item.querySelector('.sub-menu-chat');
+
+            // Vérifiez si le sous-menu est visible ou caché
+            if (subMenu.style.display === 'block') {
+                subMenu.style.display = 'none'; // Si visible, cachez le sous-menu
+            } else {
+                subMenu.style.display = 'block'; // Sinon, affichez le sous-menu
+            }
+        });
+    });
 </script>
 {% endblock %}

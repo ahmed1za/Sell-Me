@@ -23,6 +23,7 @@
         </div>
         <section class="produit-list">
             {% for produit in resultats %}
+                {% if produit.statut != 'en attente de validation' %}
                 <article class="articl-produit">
                     <a href="{{ path('produits_detail', {'id': produit.id}) }}" title="Voir les détails | quantité disponible {{ produit.images| length }}">
                         {% if produit.image != "" %}
@@ -38,6 +39,7 @@
                         <p id="produit-etat">{{ produit.etat }}</p>
                     </div>
                 </article>
+                {% endif %}
             {% endfor %}
         </section>
     </div>

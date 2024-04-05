@@ -169,6 +169,14 @@ public function findBestProduct(int $page = 1, int $limit = 30){
 
     }
 
+    public function annonceAValider(){
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->andWhere('TRIM(p.statut) = :statut')
+        ->setParameter('statut','en attente de validation')
+        ->addOrderBy("p.dateDeCreation","ASC");
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 
 
 }

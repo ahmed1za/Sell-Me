@@ -1,0 +1,43 @@
+{% extends 'baseForm.html.twig' %}
+{% block bodyForm %}
+
+    <div class="profil_details">
+        {% if app.user.photoDeProfil is not empty %}
+        <div class="photoDeProfil">
+            <img src="{{ asset('photoDeProfil/'~ app.user.photoDeProfil) }}">
+        </div>
+        {% endif %}
+        <div >
+            <p>Nom : {{ app.user.nom }}</p>
+        </div>
+        <div>
+            <p>Prenom : {{ app.user.prenom }}</p>
+        </div>
+        <div>
+            <p>Email : {{ app.user.email }}</p>
+        </div>
+        <div>
+            <p>Adresse : {{ app.user.adress }}</p>
+        </div>
+        <div>
+            <p>Code postal : {{ app.user.codePostal }}</p>
+        </div>
+        <div>
+            <p>Ville : {{ app.user.ville }}</p>
+        </div>
+        <div>
+            <p>Pays : {{ app.user.pays }}</p>
+        </div>
+        <div>
+            <p>Mot de passe : *********</p>
+        </div>
+    </div>
+
+
+    <div class="button_profil">
+        <a onclick="history.back()">Retour en arriere</a>
+        <a href="{{ path('app_profil_update') }}">Modifier le profil</a>
+    </div>
+
+
+{% endblock %}

@@ -36,7 +36,6 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
             $user->setPassword(
             $userPasswordHasher->hashPassword(
                     $user,
@@ -75,6 +74,11 @@ class RegistrationController extends AbstractController
 
         $user = $this->getUser();
 
+        if (!$user)
+        {
+            $this->redirectToRoute("app_login");
+        }
+
         $modifForm= $this->createForm(ModifProfilFormType::class, $user);
         $modifForm->handleRequest($request);
         if ($modifForm->isSubmitted() && $modifForm->isValid()){
@@ -100,4 +104,5 @@ class RegistrationController extends AbstractController
             'modifForm'=>$modifForm->createView()
         ]);
     }
+
 }

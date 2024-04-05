@@ -1,0 +1,47 @@
+{% extends 'main/home.html.twig' %}
+{% block header %}{% endblock %}
+{% block body %}
+
+    <div class="cart-container">
+        <div class="cart">
+            <h1>Annonces en attente</h1>
+            {% for element in annonces %}
+                <div class="cart-produit">
+                    <a href="{{ path('admin_exam_annonce', {'id': element.id}) }}" title="Voir les détails | quantité disponible {{ element.quantite }}">
+                        <img src="{{ asset('imageProduit/' ~ element.image) }}" alt="{{ element.nom }}">
+                        <div class="cart-details">
+                            <div class="cart-produit-content">
+                                <div>
+                                    <h2>{{ element.nom }}</h2>
+                                </div>
+                                <div>
+                                    <h3>{{ element.prix }} €</h3>
+                                </div>
+                                <div>{{ element.categorie }}</div>
+                                <div class="cart-produit-content-etat">{{ element.etat }}</div>
+                            </div>
+                            <div class="cart-produit-action">
+                                <div>  <a href="{{ path('admin_annonceOk', {'id': element.id}) }}" >valider</a></div>
+                                <div>    <a href="{{ path('admin_annonceRemove', {'id': element.id}) }}" >refuser</a></div>
+                                <div> <a href="{{ path('admin_exam_annonce', {'id': element.id}) }}" >examiner l'annonce</a></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+
+
+            {% else %}
+
+                Pas d'annonce a examiner dans votre panier
+            {% endfor %}
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

@@ -1,0 +1,16 @@
+{% extends 'baseForm.html.twig' %}
+{% block titleForm %}Signaler un utilisateur {{ parent() }}{% endblock %}
+{% block bodyForm %}
+<div class="signale">
+    <h2>Sélectionner une raison pour signaler {{ userSignalee.nom }}</h2>
+
+    <div>
+        {{ form_start(signaleForm) }}
+        {{ form_widget(signaleForm) }}
+        <button>Envoyer</button>
+        <button onclick="history.back()">Annuler</button>
+        {{ form_end(signaleForm) }}
+    </div>
+</div>
+{% endblock %}
+

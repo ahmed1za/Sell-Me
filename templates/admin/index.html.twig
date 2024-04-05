@@ -3,18 +3,18 @@
 {% block title %}Hello AdminController!{% endblock %}
 {% block header %}{% endblock %}
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="admin-accueil">
+    <div class="ajouter-utilisateur"><a href="{{ path('admin_ajouterUtilisateur') }}"><img src="{{ asset('icon/ajout-utilisateur.png') }}"><h3>Ajouter un utilisateur</h3></a> </div>
+    <div class="produit-validation"><a href="{{ path('admin_validation_annonce') }}"><img src="{{ asset('icon/validation-annonce.png') }}"><h3>Validation des annonces</h3></a> </div>
+    <div class="ajouter-administrateur"><a href="{{ path('admin_ajouterAdmin') }}"><img src="{{ asset('icon/ajout-admin.png') }}"> <h3>Ajouter un administrateur</h3></a></div>
+    <div class="supprimer-utilisateur"><a href="#"><img src="{{ asset('icon/supprimer-utilisateur.png') }}"> <h3>Bloquer/Supprimer un utilisateur</h3></a></div>
+    <div class="ajouter-categorie"><a href="#"><img src="{{ asset('icon/category-add.png') }}"><h3>Ajouter une categorie</h3></a></div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/wamp64/www/sell-me/src/Controller/AdminController.php'|file_link(0) }}">src/Controller/AdminController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/wamp64/www/sell-me/templates/admin/index.html.twig'|file_link(0) }}">templates/admin/index.html.twig</a></code></li>
-    </ul>
 </div>
+
+    {% for flash in app.flashes('user-add') %}
+        <div class="message-flash">
+            {{ flash }}
+        </div>
+    {% endfor %}
 {% endblock %}

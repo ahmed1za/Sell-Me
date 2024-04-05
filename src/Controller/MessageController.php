@@ -31,6 +31,7 @@ class MessageController extends AbstractController
 
         $conversations = $messagesRepository->findConversation($user,$user);
         $nombreNonLu = $messagesRepository->unreadMessageCount($user);
+        $messagerie = [];
 
         $messageNonLu = reset($nombreNonLu[0]);
         $session->set('messageNonLu',$messageNonLu);

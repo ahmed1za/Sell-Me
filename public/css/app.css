@@ -204,7 +204,9 @@ input, textarea ,select{
 .form-product article {
     padding: 30px;
 }
-
+.signale h2{
+    margin-left: 5%;
+}
 .form-product button{
     background: rgba(5, 135, 255, 0.94);
     width: 30%;
@@ -348,6 +350,27 @@ article a {
     margin-left: 15px;
     overflow-y: auto;
     z-index: 2;
+}
+.sub-menu-chat{
+    display: none;
+    position: absolute;
+    background-color: #D9D9D9;
+    width: auto;
+    color: black;
+    border-radius: 10px 0 10px 10px;
+    /*margin-left: 15px;*/
+    overflow-y: auto;
+    z-index: 2;
+    right: 90%;
+}
+
+.sub-menu-chat li {
+    white-space: nowrap;
+}
+
+.menu-item-chat{
+    position: relative;
+    margin-left: 50%;
 }
 
 .sub-menu.active {
@@ -849,6 +872,7 @@ margin-top: 10px;
 
 .messagerie{
     background-color: #FFFFFF;
+    min-height: 200px;
     max-height: 100%;
     width: 100%;
     color: #302F2F;
@@ -859,6 +883,11 @@ margin-top: 10px;
     text-decoration: underline;
     text-align: center;
     border-bottom: #D9D9D9 solid;
+    margin-bottom: 50px;
+}
+.messagerie .messagerie-vide{
+    text-decoration: underline;
+    text-align: center;
     margin-bottom: 50px;
 }
 
@@ -1036,4 +1065,22 @@ display: flex;
     width: 30%;
     height: 30%;
     border-radius: 100%;
+}
+
+.admin-accueil{
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 20px;
+    color: black;
+
+}
+.admin-accueil img{
+    width: 100px;
+    height: 120px;
+}
+.produit-validation,.ajouter-utilisateur,.ajouter-administrateur,.supprimer-utilisateur,.ajouter-categorie{
+
+    text-align: center;
+    background-color: white;
 }
