@@ -1,0 +1,13 @@
+{% extends 'baseForm.html.twig' %}
+
+{% block titleForm %}
+bloquer un utilisateur {{ parent() }}
+{% endblock %}
+
+{% block bodyForm %}
+{{ form_start(formBlock) }}
+    {{ form_widget(formBlock) }}
+    <button>Valider</button>
+    {{ form_end(formBlock) }}
+{% endblock %}
+

@@ -10,22 +10,26 @@
 
     <div class="chat-container">
         <div class="chat-title">
-           <a href="{{ path('app_message') }}"><img src="{{ asset('icon/arrow left.png') }}" id="flechGaucheChat" alt="précédent"></a>
-           {% if app.user == message.produit.vendeur %}
-               <h3>Vendu par vous</h3>
+            <a href="{{ path('app_message') }}"><img src="{{ asset('icon/arrow left.png') }}" id="flechGaucheChat"
+                                                     alt="précédent"></a>
+            {% if app.user == message.produit.vendeur %}
+                <h3>Vendu par vous</h3>
             {% else %}
-               <h3>Vendu par : {{ message.produit.vendeur.nom }}</h3>
+                <h3>Vendu par : {{ message.produit.vendeur.nom }}</h3>
             {% endif %}
 
             <img src=" {{ asset('imageProduit/' ~ message.produit.image) }}" alt="{{ message.produit.nom }}">
             <p> {{ message.produit.nom }}</p>
 
 
-                <div class="menu-item-chat"><a href="#"><img src="{{ asset('img/menu-vertical.png') }}" id="clipart" alt="menu lateral"></a>
-                    <ul class="sub-menu-chat">
-                        <li><a href="{{ path('signalisation_create', {'id': destinataire.id}) }}">Signaler l'utilisateur</a></li>
-                    </ul>
-                </div>
+            <div class="menu-item-chat"><a href="#"><img src="{{ asset('img/menu-vertical.png') }}" id="clipart"
+                                                         alt="menu lateral"></a>
+                <ul class="sub-menu-chat">
+                    <li>
+                        <a href="{{ path('signalisation_create', {'id': destinataire.id, 'idProduit': message.produit.id}) }}">Signaler
+                            l'utilisateur</a></li>
+                </ul>
+            </div>
 
         </div>
 
@@ -36,13 +40,17 @@
                         <div class="message">
                             <p>{{ mess.message }}</p>
                             {% if mess.image %}
-                                <div class="message-image"><img src="{{ asset('imageChat/' ~ mess.image) }}" alt="{{ message.produit.nom }}"></div>
+                                <div class="message-image"><img src="{{ asset('imageChat/' ~ mess.image) }}"
+                                                                alt="{{ message.produit.nom }}"></div>
 
                             {% endif %}
                             {% if mess.fichier %}
-                                <div class="message-fichier"><a href="{{ asset('fichierChat/' ~ mess.fichier) }}"><img src="{{ asset('icon/bouton piece joint.png') }}" alt="piece jointe"></a></div>
-                                {% endif %}
-                            <div class="message-details"><p>envoyé par vous a : {{ mess.dateDeCreation|date('d/m/Y H:i:s') }}</p></div>
+                                <div class="message-fichier"><a href="{{ asset('fichierChat/' ~ mess.fichier) }}"><img
+                                                src="{{ asset('icon/bouton piece joint.png') }}" alt="piece jointe"></a>
+                                </div>
+                            {% endif %}
+                            <div class="message-details"><p>envoyé par vous a
+                                    : {{ mess.dateDeCreation|date('d/m/Y H:i:s') }}</p></div>
                         </div>
 
                     </div>
@@ -51,13 +59,17 @@
                         <div class="message">
                             <p>{{ mess.message }}</p>
                             {% if mess.image %}
-                                <div class="message-image"><img src="{{ asset('imageChat/' ~ mess.image) }}" alt="{{ message.produit.nom }}"></div>
+                                <div class="message-image"><img src="{{ asset('imageChat/' ~ mess.image) }}"
+                                                                alt="{{ message.produit.nom }}"></div>
 
-                                {% endif %}
-                            {% if mess.fichier %}
-                                <div class="message-fichier"><a href="{{ asset('fichierChat/' ~ mess.fichier) }}"><img src="{{ asset('icon/bouton piece joint.png') }}" alt="piece jointe"></a></div>
                             {% endif %}
-                            <div class="message-details"><p>envoyé par {{ mess.destinataire.nom }} a : {{ mess.dateDeCreation|date('d/m/Y H:i:s') }}</p></div>
+                            {% if mess.fichier %}
+                                <div class="message-fichier"><a href="{{ asset('fichierChat/' ~ mess.fichier) }}"><img
+                                                src="{{ asset('icon/bouton piece joint.png') }}" alt="piece jointe"></a>
+                                </div>
+                            {% endif %}
+                            <div class="message-details"><p>envoyé par {{ mess.destinataire.nom }} a
+                                    : {{ mess.dateDeCreation|date('d/m/Y H:i:s') }}</p></div>
                         </div>
 
                     </div>
@@ -69,7 +81,8 @@
 
 
             <div class="select-file">
-                <label for="message_fichier"><img src="{{ asset('icon/bouton piece joint.png') }}" alt="piece jointe"></label>
+                <label for="message_fichier"><img src="{{ asset('icon/bouton piece joint.png') }}"
+                                                  alt="piece jointe"></label>
                 {{ form_row(formchat.fichier, {'attr': {'style': 'display: none;'}, 'label': false}) }}
             </div>
 
@@ -83,7 +96,8 @@
             </div>
 
             <div class="chat-bouton">
-                <button id="buttonForm" type="submit"><img src="{{ asset('icon/bouton envoyer.png') }}" alt="bouton envoyer"></button>
+                <button id="buttonForm" type="submit"><img src="{{ asset('icon/bouton envoyer.png') }}"
+                                                           alt="bouton envoyer"></button>
                 {{ form_row(formchat.submit, {'attr': {'style': 'display: none;'}, 'label': false}) }}
             </div>
 
@@ -107,7 +121,7 @@
 {% block footer %}
     <div class="copyright">
         <img src="{{ asset('img/logo sell me.png') }}" alt="Sell Me">
-        <div>    &copy;{{ "now"|date("Y") }} Sell Me </div>
+        <div> &copy;{{ "now"|date("Y") }} Sell Me</div>
     </div>
 {% endblock %}
 

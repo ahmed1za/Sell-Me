@@ -1,0 +1,87 @@
+{% extends 'main/home.html.twig' %}
+{% block title %}
+    chat {{ parent() }}
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block body %}
+
+    <div class="chat-container">
+        <div class="chat-title">
+            <a href="#" onclick="history.back()"><img src="{{ asset('icon/arrow left.png') }}" id="flechGaucheChat" alt="précédent"></a>
+            <h3>Vendu par : {{ produit.vendeur.nom }}</h3>
+
+
+            <img src=" {{ asset('imageProduit/' ~ produit.image) }}" alt="{{ produit.nom }}">
+            <p> {{ produit.nom }}</p>
+
+
+        </div>
+
+        <div class="message-chat">
+            {% if messages != null %}
+            {% for mess in messages %}
+                {% if mess.envoyeur == user1 %}
+                    <div class="message-container utilisateur-connecte" onclick="toggleDetails(this)">
+                        <div class="message">
+                            <p>{{ mess.message }}</p>
+                            {% if mess.image %}
+                                <div class="message-image"><img src="{{ asset('imageChat/' ~ mess.image) }}" alt="{{ mess.produit.nom }}"></div>
+
+                            {% endif %}
+                            {% if mess.fichier %}
+                                <div class="message-fichier"><a href="{{ asset('fichierChat/' ~ mess.fichier) }}"><img src="{{ asset('icon/bouton piece joint.png') }}" alt="piece jointe"></a></div>
+                            {% endif %}
+                            <div class="message-details"><p>envoyé par vous a : {{ mess.dateDeCreation|date('d/m/Y H:i:s') }}</p></div>
+                        </div>
+
+                    </div>
+                {% else %}
+                    <div class="message-container utilisateur-cible" onclick="toggleDetails(this)">
+                        <div class="message">
+                            <p>{{ mess.message }}</p>
+                            {% if mess.image %}
+                                <div class="message-image"><img src="{{ asset('imageChat/' ~ mess.image) }}" alt="{{ message.produit.nom }}"></div>
+
+                            {% endif %}
+                            {% if mess.fichier %}
+                                <div class="message-fichier"><a href="{{ asset('fichierChat/' ~ mess.fichier) }}"><img src="{{ asset('icon/bouton piece joint.png') }}" alt="piece jointe"></a></div>
+                            {% endif %}
+                            <div class="message-details"><p>envoyé par {{ mess.destinataire.nom }} a : {{ mess.dateDeCreation|date('d/m/Y H:i:s') }}</p></div>
+                        </div>
+
+                    </div>
+                {% endif %}
+            {% endfor %}
+            {% else %}
+
+                    <div class="noMessage">  <p> Cette conversation ne comporte pas de message </p></div>
+            {% endif %}
+        </div>
+
+
+
+    </div>
+
+    {% for message in app.flashes('chat-error') %}
+        <div class="message-flash">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+
+
+{% endblock %}
+
+{% block footer %}
+    <div class="copyright">
+        <img src="{{ asset('img/logo sell me.png') }}" alt="Sell Me">
+        <div>    &copy;{{ "now"|date("Y") }} Sell Me </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+
+{% endblock %}

@@ -681,11 +681,6 @@ transform: scale(1.1);
 
 }
 
-#categories{
-    display: flex;
-    flex-wrap: wrap;
-}
-
 
 .messagerie-logo {
     position: absolute;
@@ -1027,8 +1022,11 @@ margin-top: 10px;
     height: 50px;
     width: 50px;
 }
-.message-image{
-
+.noMessage{
+ margin-top: 10%;
+    text-align: center;
+    text-decoration: underline;
+    font-weight: bold;
 }
 .message-details {
     display: none;

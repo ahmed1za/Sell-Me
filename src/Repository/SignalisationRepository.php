@@ -39,28 +39,15 @@ class SignalisationRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Signalisation[] Returns an array of Signalisation objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findUserSignalee(){
+        $query = $this->createQueryBuilder("s");
+        $query->innerJoin("s.utilisateurSignale","u")
+            ->addSelect("u");
+        $query->andWhere("s.etat LIKE :etat")
+        ->setParameter("etat","en attente");
+        $query->orderBy("s.dateSignalement","ASC");
 
-//    public function findOneBySomeField($value): ?Signalisation
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+       return $query->getQuery()->getResult();
+    }
+
 }

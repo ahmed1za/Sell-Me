@@ -19,12 +19,14 @@ final class Version20240402204548 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql('SET FOREIGN_KEY_CHECKS=0');
+
+
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE commande ADD CONSTRAINT FK_6EEAA67DB985086F FOREIGN KEY (paiements_id) REFERENCES paiements (id)');
         $this->addSql('CREATE INDEX IDX_6EEAA67DB985086F ON commande (paiements_id)');
         $this->addSql('ALTER TABLE produit ADD statut VARCHAR(255) NOT NULL');
-        $this->addSql('SET FOREIGN_KEY_CHECKS=1');
+
+
     }
 
     public function down(Schema $schema): void

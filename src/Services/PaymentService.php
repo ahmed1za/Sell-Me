@@ -110,7 +110,7 @@ class PaymentService
             $paiement = new Paiements();
             $paiement->setReference($transaction->payment_intent);
             $paiement->setMontant($transaction->amount_total / 100);
-            $paiement->setDateDePaiment(new \DateTime('+1 hour'));
+            $paiement->setDateDePaiment(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
             $commande->setPaiements($paiement);
 
             $entityManager->persist($paiement);

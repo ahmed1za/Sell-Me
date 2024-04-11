@@ -153,8 +153,8 @@ class ProduitController extends AbstractController
             }
 
 
-            $produit->setDateDeCreation(new \DateTime("+1 hour"));
-            $produit->setDateDeModification(new \DateTime("+1 hour"));
+            $produit->setDateDeCreation(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
+            $produit->setDateDeModification(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
             $produit->setStatut("en attente de validation");
             $entityManager->persist($produit);
             $entityManager->flush();

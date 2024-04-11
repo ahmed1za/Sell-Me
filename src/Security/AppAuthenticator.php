@@ -2,11 +2,15 @@
 
 namespace App\Security;
 
+
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
@@ -23,15 +27,25 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
     public const LOGIN_ROUTE = 'app_login';
 
     private UrlGeneratorInterface $urlGenerator;
+    private  $entityManager;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator)
+    public function __construct(UrlGeneratorInterface $urlGenerator,EntityManagerInterface $entityManager)
     {
         $this->urlGenerator = $urlGenerator;
+        $this->entityManager = $entityManager;
     }
 
     public function authenticate(Request $request): Passport
     {
         $email = $request->request->get('email', '');
+
+        $user = $this->entityManager->getRepository(User::class)->findOneBy(['email'=> $email]);
+
+        if ($user || $user->isBloquer()) {
+            if ($user->getDateExpirationBlocage() >= new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'))){
+            throw new CustomUserMessageAuthenticationException("Votre compte est bloqué jusqu'au " . $user->getDateExpirationBlocage()->format('Y-m-d H:i:s'));
+        }
+        }
 
         $request->getSession()->set(Security::LAST_USERNAME, $email);
 
@@ -51,17 +65,22 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
+
+        $user = $token->getUser();
+
+        if ($user instanceof User && $user->isBloquer() && $user->getDateExpirationBlocage() <= new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'))) {
+            $user->setBloquer(false)
+                ->setDateExpirationBlocage(null);
+
+            $this->entityManager->flush();
+        }
+
         $contacterVendeurInfo = $request->getSession()->get('contacter_vendeur');
 
-        // Si des informations de redirection sont disponibles, les utiliser pour la redirection
         if ($contacterVendeurInfo) {
             $id = $contacterVendeurInfo['id'];
             $produitId = $contacterVendeurInfo['produitId'];
-
-            // Effacer les informations de redirection de la session
             $request->getSession()->remove('contacter_vendeur');
-
-            // Rediriger vers la page de chat avec les informations appropriées
             return new RedirectResponse($this->urlGenerator->generate('app_chat', [
                 'id' => $id,
                 'produitId' => $produitId

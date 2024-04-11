@@ -57,7 +57,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $nature;
 
     /**
-     * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="Vendeur")
+     * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="Vendeur",cascade={"remove"})
      */
     private $produits;
 
@@ -103,9 +103,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $photoDeProfil;
 
     /**
-     * @ORM\OneToMany(targetEntity=Signalisation::class, mappedBy="utilisateurSignale", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Signalisation::class, mappedBy="utilisateurSignale")
      */
     private $signalisations;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $bloquer = 0;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateExpirationBlocage;
 
     public function __construct()
     {
@@ -443,6 +453,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $signalisation->setUtilisateurSignale(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isBloquer(): ?bool
+    {
+        return $this->bloquer;
+    }
+
+    public function setBloquer(?bool $bloquer): self
+    {
+        $this->bloquer = $bloquer;
+
+        return $this;
+    }
+
+    public function getDateExpirationBlocage(): ?\DateTimeInterface
+    {
+        return $this->dateExpirationBlocage;
+    }
+
+    public function setDateExpirationBlocage(?\DateTimeInterface $dateExpirationBlocage): self
+    {
+        $this->dateExpirationBlocage = $dateExpirationBlocage;
 
         return $this;
     }

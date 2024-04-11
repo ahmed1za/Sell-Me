@@ -6,13 +6,13 @@
     <h2 id="creeCompte">Créer un compte</h2>
 
     {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.nom) }}
-        {{ form_row(registrationForm.prenom) }}
+    {{ form_row(registrationForm.nom) }}
+    {{ form_row(registrationForm.prenom) }}
     <div class="nature">
         {{ form_row(registrationForm.nature) }}
     </div>
     {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
+    {{ form_row(registrationForm.plainPassword, {
         label: 'Mot de passe'
     }) }}
     {{ form_row(registrationForm.adress) }}
@@ -21,12 +21,14 @@
     {{ form_row(registrationForm.pays) }}
     {{ form_row(registrationForm.photoDeProfil) }}
     <button type="submit" class="btn">Register</button>
+    <button onclick="history.back()">Annuler</button>
     {{ form_end(registrationForm) }}
-     <article>
-         En créant un compte, vous acceptez les <a href="#">conditions générales de vente</a> de Sell Me.
-         Veuillez consulter notre <a href="#">notice Protection de vos Informations Personnelles</a>,
-         notre <a href="#">notice Cookies</a> et notre <a href="#">notice Annonces publicitaires basées sur vos centres d’intérêt</a>.
-     </article>
+    <article>
+        En créant un compte, vous acceptez les <a href="#">conditions générales de vente</a> de Sell Me.
+        Veuillez consulter notre <a href="#">notice Protection de vos Informations Personnelles</a>,
+        notre <a href="#">notice Cookies</a> et notre <a href="#">notice Annonces publicitaires basées sur vos centres
+            d’intérêt</a>.
+    </article>
 
 
 {% endblock %}

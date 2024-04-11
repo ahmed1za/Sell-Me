@@ -91,6 +91,7 @@ class RegistrationController extends AbstractController
                     $fichier
                 );
                 $user->setPhotoDeProfil($fichier);
+
             }
             $entityManager->flush();
 

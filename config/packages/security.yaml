@@ -44,12 +44,33 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/categories/create, roles: ROLE_ADMIN }
         - { path: ^/dashboard, roles: ROLE_ADMIN }
+        - { path: ^/ignorer_signalement, roles: ROLE_ADMIN }
+        - { path: ^/gestionSignal, roles: ROLE_ADMIN }
+        - { path: ^/listSignalement, roles: ROLE_ADMIN }
+        - { path: ^/bloquer_utilisateur, roles: ROLE_ADMIN }
+        - { path: ^/supprimerUtilisateur, roles: ROLE_ADMIN }
+        - { path: ^/accesMessage, roles: ROLE_ADMIN }
+        - { path: ^/adminannonceRemove, roles: ROLE_ADMIN }
+        - { path: ^/adminajouterAdmin, roles: ROLE_ADMIN }
+        - { path: ^/adminajouterUtilisateur, roles: ROLE_ADMIN }
 
         - { path: ^/produits/create, roles: [ ROLE_USER, ROLE_ADMIN ] }
+        - { path: ^/produits/mesAnnonces, roles: [ ROLE_USER, ROLE_ADMIN ] }
+        - { path: ^/produits/delete, roles: [ ROLE_USER, ROLE_ADMIN ] }
         - { path: ^/images/create, roles: [ ROLE_USER, ROLE_ADMIN ] }
+
+        - { path: ^/message, roles: [ ROLE_USER, ROLE_ADMIN ] }
+        - { path: ^/chat, roles: [ ROLE_USER, ROLE_ADMIN ] }
+        - { path: ^/signalisation_create, roles: [ ROLE_USER, ROLE_ADMIN ] }
 
 
         - { path: ^/commandes/ajout, roles: [ ROLE_USER, ROLE_ADMIN ] }
+        - { path: ^/stripe, roles: [ ROLE_USER, ROLE_ADMIN ] }
+        - { path: ^/stripe/success, roles: [ ROLE_USER, ROLE_ADMIN ] }
+        - { path: ^/stripe/error, roles: [ ROLE_USER, ROLE_ADMIN ] }
+
+        - { path: ^/profil, roles: [ ROLE_USER, ROLE_ADMIN ] }
+        - { path: ^/modifierProfil, roles: [ ROLE_USER, ROLE_ADMIN ] }
 
 
 

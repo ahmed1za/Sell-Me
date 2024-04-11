@@ -1,0 +1,53 @@
+{% extends 'main/home.html.twig' %}
+
+
+
+{% block header %}
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="cart-container">
+        <div class="cart">
+            <h1>Annonces en attente</h1>
+            {% for signal in list %}
+                <div class="cart-produit">
+                    <a href="{{ path('gestionSignal', {'id': signal.id}) }}" title="Voir les détails | quantité disponible">
+                        <img src="{{ asset('photoDeProfil/' ~ signal.utilisateurSignale.photoDeProfil) }}" alt="{{ signal.utilisateurSignale.nom }}">
+                        <div class="cart-details">
+                            <div class="cart-produit-content">
+                                <div>
+                                    <h2>{{ signal.utilisateurSignale.nom }}</h2>
+                                </div>
+                                <div>
+                                    <h3>{{ signal.utilisateurSignale.prenom }}</h3>
+                                </div>
+                                <div>signaler par : {{ signal.utilisateurQuiSignale.nom }}</div>
+                                <div class="cart-produit-content-etat">Motif : {{ signal.motif }}</div>
+                            </div>
+                            <div class="cart-produit-action">
+                                <div> <a href="{{ path('gestionSignal', {'id': signal.id}) }}" ><button>examiner l'annonce</button></a></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+
+
+            {% else %}
+
+                Pas d'annonce a examiner dans votre panier
+            {% endfor %}
+        </div>
+
+    </div>
+
+
+
+
+{% endblock %}
+
+{% block title %}
+    utilisateurs signalés {{ parent() }}
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'main/home.html.twig' %}
+
+{% block title %}
+    signalement |{{ parent() }}
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+
+{% block body %}
+    <div>
+        <div>
+            <ul>
+                <li>Utilisateur
+                    : {{ signalement.utilisateurQuiSignale.nom }}{{ signalement.utilisateurQuiSignale.prenom }}</li>
+                <li>Utilisateur signalé
+                    : {{ signalement.utilisateurSignale.nom }}  {{ signalement.utilisateurSignale.prenom }}</li>
+                <li>Motif : {{ signalement.motif }}</li>
+                <li>Raison : {{ signalement.raison }}</li>
+                <li>Description : {{ signalement.description }}</li>
+                <li>Date et heure :{{ signalement.dateSignalement |date(" d M Y H:i:s") }}</li>
+            </ul>
+        </div>
+        <div>
+            {% if user1 != "" and user2 != "" %}
+                <a href="{{ path('accesmessage', {'produitId': signalement.produit.id, 'user1': user1, 'user2': user2}) }}">
+                    <button>Acceder au message</button>
+                </a>
+            {% endif %}
+            <a href="{{ path('bloquer_utilisateur', {'id': signalement.id}) }}">
+                <button>Bloquer l'utilisateur signalé</button>
+            </a>
+            <a href="{{ path('supprimer_utilisateur', {'id': signalement.utilisateurSignale.id, "idSignal": signalement.id}) }}">
+                <button>Supprimer le compte de l'utilisateur signalé</button>
+            </a>
+            <a href="{{ path('ignorer_signalement', {'id': signalement.id}) }}">
+                <button>Ignoré le signalement</button>
+            </a>
+        </div>
+
+    </div>
+{% endblock %}
+

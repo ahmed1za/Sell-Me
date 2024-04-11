@@ -43,7 +43,7 @@ class CommandeController extends AbstractController
         $commande->setUserId($this->getUser());
 
         $commande->setReference($this->genererRef());
-        $commande->setDateDeCreation(new \DateTime("+1 hour"));
+        $commande->setDateDeCreation(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
 
         foreach ($panier as $item => $quantite){
             $commandeDetails = new CommandeDetails();

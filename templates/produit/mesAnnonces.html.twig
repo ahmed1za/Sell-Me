@@ -1,7 +1,7 @@
 {% extends 'main/home.html.twig' %}
 
 {% block title %}
-Mes annonces {{ parent() }}
+    Mes annonces {{ parent() }}
 {% endblock %}
 {% block header %}
     <h1>
@@ -13,7 +13,8 @@ Mes annonces {{ parent() }}
         <div class="cart">
             {% for element in produits %}
                 <div class="cart-produit">
-                    <a href="{{ path('produits_detail', {'id': element.id}) }}" title="Voir les détails | quantité disponible {{ element.quantite }}">
+                    <a href="{{ path('produits_detail', {'id': element.id}) }}"
+                       title="Voir les détails | quantité disponible {{ element.quantite }}">
                         <img src="{{ asset('imageProduit/' ~ element.image) }}" alt="{{ element.nom }}">
                         <div class="cart-details">
                             <div class="cart-produit-content">
@@ -27,9 +28,8 @@ Mes annonces {{ parent() }}
                                 <div class="cart-produit-content-etat">{{ element.etat }}</div>
                             </div>
                             <div class="cart-produit-action">
-                                <div>  <a href="{{ path('admin_annonceOk', {'id': element.id}) }}" >valider</a></div>
-                                <div>    <a href="{{ path('admin_annonceRemove', {'id': element.id}) }}" >refuser</a></div>
-                                <div> <a href="{{ path('admin_exam_annonce', {'id': element.id}) }}" >examiner l'annonce</a></div>
+                                <div><a href="{{ path('produits_detail', {'id': element.id}) }}">Voir annonce</a></div>
+
                             </div>
                         </div>
                     </a>

@@ -59,6 +59,17 @@ class Signalisation
      */
     private $description;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Produit::class, inversedBy="signalisations")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $produit;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $accesMessage;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -156,6 +167,30 @@ class Signalisation
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getProduit(): ?Produit
+    {
+        return $this->produit;
+    }
+
+    public function setProduit(?Produit $produit): self
+    {
+        $this->produit = $produit;
+
+        return $this;
+    }
+
+    public function isAccesMessage(): ?bool
+    {
+        return $this->accesMessage;
+    }
+
+    public function setAccesMessage(bool $accesMessage): self
+    {
+        $this->accesMessage = $accesMessage;
 
         return $this;
     }

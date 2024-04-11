@@ -1,6 +1,6 @@
 {% extends 'main/home.html.twig' %}
 {% block title %}
-   Messagerie {{ parent() }}
+    Messagerie {{ parent() }}
 {% endblock %}
 
 {% block header %}
@@ -8,45 +8,45 @@
 
 {% block body %}
 
-   <div class="messagerie">
-      <div class="messagerie-title">
-         <h1>Messagerie</h1>
-      </div>
-      <div class="messagerie-elements">
+    <div class="messagerie">
+        <div class="messagerie-title">
+            <h1>Messagerie</h1>
+        </div>
+        <div class="messagerie-elements">
 
-         {% if conversations is not empty %}
-         {% for conversation in conversations %}
-         {% if app.user == conversation.destinataire %}
-         <a href="{{ path('app_chat', {'id': conversation.envoyeur.id, 'produitId': conversation.produit.id }) }}">
-            {% else %}
-            <a href="{{ path('app_chat', {'id': conversation.destinataire.id, 'produitId': conversation.produit.id }) }}">
-               {% endif %}
-               <div class="element">
-                  <div class="element-image">
-                     <img src="{{ asset('imageProduit/'~ conversation.produit.image) }}" alt="image">
-                  </div>
-                  <div class="element-title">
-                     {% if app.user == conversation.destinataire %}
-                        <h3> {{ conversation.envoyeur.nom }} </h3>
-                     {% else %}
-                        <h3> {{ conversation.destinataire.nom }} </h3>
-                     {% endif %}
-                  </div>
-                  <div class="element-produit">
-                     <p> {{ conversation.titre }} </p>
-                  </div>
-               </div>
-            </a>
-            {% endfor %}
+            {% if conversations is not empty %}
+            {% for conversation in conversations %}
+            {% if app.user == conversation.destinataire %}
+            <a href="{{ path('app_chat', {'id': conversation.envoyeur.id, 'produitId': conversation.produit.id }) }}">
+                {% else %}
+                <a href="{{ path('app_chat', {'id': conversation.destinataire.id, 'produitId': conversation.produit.id }) }}">
+                    {% endif %}
+                    <div class="element">
+                        <div class="element-image">
+                            <img src="{{ asset('imageProduit/'~ conversation.produit.image) }}" alt="image">
+                        </div>
+                        <div class="element-title">
+                            {% if app.user == conversation.destinataire %}
+                                <h3> {{ conversation.envoyeur.nom }} </h3>
+                            {% else %}
+                                <h3> {{ conversation.destinataire.nom }} </h3>
+                            {% endif %}
+                        </div>
+                        <div class="element-produit">
+                            <p> {{ conversation.titre }} </p>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
 
-            {% else %}
-               <div class="messagerie-vide">
-                  <h2>Votre messagerie ne contient aucun message pour le moment</h2>
-               </div>
-            {% endif %}
+                {% else %}
+                    <div class="messagerie-vide">
+                        <h2>Votre messagerie ne contient aucun message pour le moment</h2>
+                    </div>
+                {% endif %}
 
 
-      </div>
+        </div>
 
-   </div>
+    </div>
 {% endblock %}

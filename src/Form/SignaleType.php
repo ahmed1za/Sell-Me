@@ -31,12 +31,20 @@ class SignaleType extends AbstractType
                     "Harcèlement"=>"Harcèlement",
                     "Fraude"=>"Fraude",
                     "Arnaque"=>"Arnaque",
-                    "Spammeur"=>"Spammeur"
+                    "Spammeur"=>"Spammeur",
+                    "Produit non conforme"=>"Produit non conforme"
                 ]
             ])
             ->add('description',TextareaType::class,[
                 'label'=>"Dites nous en plus (facultatif)",
                 'required'=>false
+            ])
+            ->add('accesMessage',ChoiceType::class,[
+                'choices'=>[
+                    'Oui'=>true,
+                    'Non'=>False
+                ],
+                'label'=>"Autoriser SellMe a accéder a la conversation avec l'utilisateur signalé"
             ])
 
         ;

@@ -146,7 +146,7 @@ class MessageController extends AbstractController
             $formchat->handleRequest($request);
 
             if ($formchat->isSubmitted() && $formchat->isValid()){
-                $message->setDateDeCreation(new \DateTime("+1 hour"));
+                $message->setDateDeCreation(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
                 $image = $formchat->get('image')->getData();
                 $fichier = $formchat->get('fichier')->getData();
 
@@ -239,4 +239,66 @@ class MessageController extends AbstractController
                 'destinataire'=>$destinataire
             ]);
         }
+
+    /**
+     * @Route("/accesMessage/{user1}/{user2}/{produitId}", name="accesmessage")
+     */
+    public function accesMessage(int $user1,
+                         int $user2,
+                         int $produitId,
+                         CategoriesRepository $categoriesRepository,
+                         ProduitRepository $produitRepository,
+                         MessagesRepository $messagesRepository,
+                         UserRepository $userRepository,
+                         Request $request
+    ): Response
+    {
+
+
+        $user1 = $userRepository->find($user1);
+        $user2 = $userRepository->find($user2);
+        $produit = $produitRepository->find($produitId);
+        $messages = $messagesRepository->findMessages($user1,$user2);
+
+
+
+
+        $categories = $categoriesRepository->findSixCategories();
+        $searchForm = $this->createForm(SearchProduitType::class);
+        $searchForm->handleRequest($request);
+
+        $filtre = new Filtre();
+        $filreForm = $this->createForm(FiltreType::class,$filtre);
+        $filreForm->handleRequest($request);
+
+        if ($filreForm->isSubmitted() && $filreForm->isValid()){
+            $produits = $produitRepository->filtrer($filtre);
+        }
+
+        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
+            $data = $searchForm->getData();
+            $nom = $data['nom'];
+            $categorie = $data['categorie'];
+            $resultats = $produitRepository->searchProduct($nom, $categorie);
+            return $this->render('produit/produitSearch.html.twig', [
+                'searchForm' => $searchForm->createView(),
+                'resultats' => $resultats,
+                'categories'=>$categories,
+                'filtreForm'=>$filreForm->createView()
+            ]);
+        }
+
+
+
+        return $this->render("message/accesMessageAdmin.html.twig",[
+            "user1" => $user1,
+            "user2"=>$user2,
+            "messages"=>$messages,
+            "categories"=>$categories,
+            "searchForm"=>$searchForm->createView(),
+            "produit"=>$produit
+        ]);
+
+}
+
 }
