@@ -115,6 +115,7 @@ class CommandeController extends AbstractController
 
 
 
+
         $categories = $categoriesRepository->findSixCategories();
         $searchForm = $this->createForm(SearchProduitType::class);
         $searchForm->handleRequest($request);

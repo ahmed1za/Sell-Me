@@ -1082,3 +1082,8 @@ display: flex;
     text-align: center;
     background-color: white;
 }
+
+.paiement-valider{
+    padding: 10px;
+    text-align: center;
+}

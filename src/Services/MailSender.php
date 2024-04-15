@@ -105,5 +105,16 @@ class MailSender
         $this->mailer->send($message);
     }
 
+    public function nouveauMessageRecu($user,$userEmeteur,$produit){
+        $message = new Email();
+        $message->from("messagerie@sell-me.com")
+            ->to($user)
+            ->subject("Nouveau message pour ".$produit)
+            ->html("<h1>Nouveau message</h1> Bonjour vous avez reçu un nouveau message 
+                    dans votre messagerie de la part de :".$userEmeteur." concernant votre produit ".$produit);
+
+        $this->mailer->send($message);
+    }
+
 
 }

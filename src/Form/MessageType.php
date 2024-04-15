@@ -17,7 +17,7 @@ class MessageType extends AbstractType
     {
         $builder
 
-            ->add('message',TextareaType::class,[
+            ->add('message',TextType::class,[
                 'label'=>false,
                 'required'=>false ,
                 'attr'=>[

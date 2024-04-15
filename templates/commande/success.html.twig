@@ -4,8 +4,13 @@
 {% endblock %}
 
 {% block bodyForm%}
-    <div>Paiement Valider</div>
-    <div>
+
+
+
+    <div class="paiement-valider">
+        <a href="{{ path('commandes_list') }}"><img src="{{ asset('icon/arrow left.png') }}" id="flechGaucheChat"
+                                                    alt="précédent"> Mes commandes</a>
+        <h1>Paiement Valider</h1>
         <div>
             votre commande sera expédiée a :
             <div>{{ commande.userId.nom }}
@@ -21,9 +26,9 @@
         <div>
             Details de la commande :
             {% for detail in commande.commandeDetails %}
-            <div> {{ detail.produitId.nom }}</div>
-                <div>{{ detail.quantite}}</div>
-                <div><img src="{{ asset('imageProduit/'~ detail.produitId.image) }}" style="height: 90px ; width: 90px"></div>
+            <div> Nom  du produit : {{ detail.produitId.nom }}</div>
+                <div>Quantité : {{ detail.quantite}}</div>
+                <div><img src="{{ asset('imageProduit/'~ detail.produitId.image) }}" alt="{{ detail.produitId.nom }}" style="height: 90px ; width: 90px"></div>
                 <div>prix unitaire : {{ detail.produitId.prix }} €</div>
             {% endfor %}
         </div>
@@ -31,7 +36,7 @@
             reference du paiement : {{ data.reference }}
         </div>
         <div>
-            date et heure du paiement : {{ data.dateDePaiment|date('D, d M Y H:i:s') }}
+            date et heure du paiement : {{ data.dateDePaiment|date('d M Y H:i:s') }}
         </div>
         <div>
             Montant du Paiement : {{ data.montant}} €

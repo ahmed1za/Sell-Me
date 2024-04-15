@@ -39,6 +39,17 @@ class CommandeRepository extends ServiceEntityRepository
         }
     }
 
+    public function commandePayee(){
+
+        $query = $this->createQueryBuilder("c")
+            ->innerJoin("c.paiements","cp")
+            ->getQuery();
+
+        return $query->getResult();
+
+    }
+
+
 //    /**
 //     * @return Commande[] Returns an array of Commande objects
 //     */

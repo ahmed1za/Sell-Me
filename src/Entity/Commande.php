@@ -42,7 +42,7 @@ class Commande
 
     /**
      * @ORM\ManyToOne(targetEntity=Paiements::class, inversedBy="commande")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $paiements;
 
