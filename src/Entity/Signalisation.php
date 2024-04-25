@@ -18,13 +18,13 @@ class Signalisation
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="signalisations")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="userSignale")
      * @ORM\JoinColumn(nullable=false)
      */
     private $utilisateurSignale;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="signalisations")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="userQuiSignal")
      * @ORM\JoinColumn(nullable=false)
      */
     private $utilisateurQuiSignale;

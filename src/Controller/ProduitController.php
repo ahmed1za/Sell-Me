@@ -9,9 +9,7 @@ use App\Form\ProduitType;
 use App\Form\SearchProduitType;
 use App\Repository\CategoriesRepository;
 use App\Repository\ProduitRepository;
-use App\Services\HomeService;
 use Doctrine\ORM\EntityManagerInterface;
-use PhpParser\Node\Stmt\Foreach_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,9 +28,7 @@ class ProduitController extends AbstractController
     public function list(ProduitRepository $produitRepository,CategoriesRepository $categoriesRepository, Request $request): Response
     {
         $page = $request->query->getInt('page', 1);
-        $limit = 30;
-
-        $produits = $produitRepository->findBestProduct($page,$limit);
+        $produits = $produitRepository->findBestProduct($page);
 
         $categories = $categoriesRepository->findSixCategories();
         $searchForm = $this->createForm(SearchProduitType::class);
@@ -51,7 +47,7 @@ class ProduitController extends AbstractController
             $nom = $data['nom'];
             $categorie = $data['categorie'];
 
-            $resultats = $produitRepository->searchProduct($nom, $categorie);
+            $resultats = $produitRepository->searchProduct($nom, $categorie,$page);
             return $this->render('produit/produitSearch.html.twig', [
                 'searchForm' => $searchForm->createView(),
                 'resultats' => $resultats,
@@ -67,10 +63,7 @@ class ProduitController extends AbstractController
             "produits"=>$produits ,
             'searchForm' => $searchForm->createView(),
             'categories'=>$categories,
-            'filtreForm'=>$filreForm->createView()
-
-
-
+            'filtreForm'=>$filreForm->createView(),
         ]);
     }
 
@@ -97,8 +90,9 @@ class ProduitController extends AbstractController
             $data = $searchForm->getData();
             $nom = $data['nom'];
             $categorie = $data['categorie'];
+            $page = $request->query->getInt('page', 1);
 
-            $resultats = $produitRepository->searchProduct($nom, $categorie);
+            $resultats = $produitRepository->searchProduct($nom, $categorie,$page);
             return $this->render('produit/produitSearch.html.twig', [
                 'searchForm' => $searchForm->createView(),
                 'resultats' => $resultats,
@@ -120,7 +114,7 @@ class ProduitController extends AbstractController
 
     /**
      * @Route("/create", name="create")
-     */public function create(Request $request, EntityManagerInterface $entityManager, ParameterBagInterface $parameterBag): Response
+     */public function create(Request $request, EntityManagerInterface $entityManager): Response
 
         {
         $user = $this->getUser();
@@ -186,8 +180,9 @@ class ProduitController extends AbstractController
      */
     public function findByCategory($categorie, ProduitRepository $produitRepository,CategoriesRepository $categoriesRepository,Request $request): Response
     {
+        $page = $request->query->getInt('page', 1);
+        $produits = $produitRepository->findByCategory($categorie,$page);
 
-        $produits = $produitRepository->findByCategory($categorie);
 
 
         $categories = $categoriesRepository->findSixCategories();
@@ -203,11 +198,12 @@ class ProduitController extends AbstractController
         }
 
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
+            $page = $request->query->getInt('page', 1);
             $data = $searchForm->getData();
             $nom = $data['nom'];
             $categorie = $data['categorie'];
 
-            $resultats = $produitRepository->searchProduct($nom, $categorie);
+            $resultats = $produitRepository->searchProduct($nom, $categorie,$page);
             return $this->render('produit/produitSearch.html.twig', [
                 'searchForm' => $searchForm->createView(),
                 'resultats' => $resultats,
@@ -244,6 +240,7 @@ class ProduitController extends AbstractController
 
     public function mesAnnonce(ProduitRepository $produitRepository, CategoriesRepository $categoriesRepository,Request $request):Response{
         $user = $this->getUser();
+        $page = $request->query->getInt('page', 1);
 
         if ($user){
             $produits = $produitRepository->findBy(['Vendeur'=>$user]);
@@ -265,7 +262,7 @@ class ProduitController extends AbstractController
             $nom = $data['nom'];
             $categorie = $data['categorie'];
 
-            $resultats = $produitRepository->searchProduct($nom, $categorie);
+            $resultats = $produitRepository->searchProduct($nom, $categorie, $page);
             return $this->render('produit/produitSearch.html.twig', [
                 'searchForm' => $searchForm->createView(),
                 'resultats' => $resultats,

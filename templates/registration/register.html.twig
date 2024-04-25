@@ -20,6 +20,9 @@
     {{ form_row(registrationForm.ville) }}
     {{ form_row(registrationForm.pays) }}
     {{ form_row(registrationForm.photoDeProfil) }}
+    <div id="numeroDeSiretContainer" style="display: none;">
+        {{ form_row(registrationForm.numeroDeSiret) }}
+    </div>
     <button type="submit" class="btn">Register</button>
     <button onclick="history.back()">Annuler</button>
     {{ form_end(registrationForm) }}
@@ -29,6 +32,17 @@
         notre <a href="#">notice Cookies</a> et notre <a href="#">notice Annonces publicitaires basées sur vos centres
             d’intérêt</a>.
     </article>
+    <script>
+        var natureSelect = document.querySelector('#{{ registrationForm.nature.vars.id }}');
+        var numeroDeSiretContainer = document.getElementById("numeroDeSiretContainer");
 
+        natureSelect.addEventListener('change', function (){
+            if (this.value === 'professionnel'){
+                numeroDeSiretContainer.style.display = 'block';
+            } else {
+                numeroDeSiretContainer.style.display = 'none';
+            }
+        });
+    </script>
 
 {% endblock %}

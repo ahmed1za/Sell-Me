@@ -36,7 +36,7 @@
                            la commande est validé et payée
                 </article>
 <div>
-    <button><a href="{{ path('stripe_success', {'id': commande.id}) }}">Voir les détails de la commande</a></button>
+    <button><a href="{{ path('commandes_payee', {'id': commande.id}) }}">Voir les détails de la commande</a></button>
 </div>
             </div>
     {% else %}

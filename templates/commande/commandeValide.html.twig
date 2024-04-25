@@ -13,10 +13,11 @@
         <h1>Paiement Valider</h1>
         <div>
             votre commande sera expédiée a :
-            <div>{{ commande.userId.nom }}
+            <div>
+                {{ commande.userId.nom }}
             </div>
             <div>
-            {{ commande.userId.ville }},{{ commande.userId.codePostal }}
+                {{ commande.userId.ville }},{{ commande.userId.codePostal }}
             </div>
             <div>{{ commande.userId.pays }}</div>
         </div>
@@ -26,7 +27,7 @@
         <div>
             Details de la commande :
             {% for detail in commande.commandeDetails %}
-            <div> Nom  du produit : {{ detail.produitId.nom }}</div>
+                <div> Nom  du produit : {{ detail.produitId.nom }}</div>
                 <div>Quantité : {{ detail.quantite}}</div>
                 <div><img src="{{ asset('imageProduit/'~ detail.produitId.image) }}" alt="{{ detail.produitId.nom }}" style="height: 90px ; width: 90px"></div>
                 <div>prix unitaire : {{ detail.produitId.prix }} €</div>
@@ -34,13 +35,13 @@
         </div>
 
         <div>
-            reference du paiement : {{ data.reference }}
+            reference du paiement : {{ commande.paiements.reference }}
         </div>
         <div>
-            date et heure du paiement : {{ data.dateDePaiment|date('d M Y H:i:s') }}
+            date et heure du paiement : {{ commande.paiements.dateDePaiment|date('d M Y H:i:s') }}
         </div>
         <div>
-            Montant du Paiement : {{ data.montant}} €
+            Montant du Paiement : {{ commande.paiements.montant}} €
         </div>
     </div>
 {% endblock %}

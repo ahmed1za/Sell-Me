@@ -13,9 +13,9 @@
              <div class="slider_detail">
                  <div class="slider_detail_nav">
                      <img onclick="precedent()" class="slider_nav_button_detail slider_nav_button_detail--prev"
-                          src="{{ asset('icon/flech gauche.png') }}">
+                          src="{{ asset('icon/flech gauche.png') }}" alt="precedent">
                      <img onclick="suivant()" class="slider_nav_button_detail slider_nav_button_detail--next"
-                          src="{{ asset('icon/fleche droite.png') }}">
+                          src="{{ asset('icon/fleche droite.png') }}" alt="suivant">
 
                  </div>
 
@@ -63,9 +63,14 @@
                  <div class="livraison-disponible"> Livraison disponible</div>
              {% endif %}
              <div class="produit-quantite">Quantité : {{ produit.quantite }}</div>
-             <div>
-                 <label title="{{ produit.vendeur.nom }} {{ produit.vendeur.prenom }} {{ produit.vendeur.produits|length }}">vendu
-                     par : {{ produit.vendeur.prenom }}</label></div>
+             <div class="vendeur">
+                     <a href="{{ path('profil_vendeur', {'id': produit.vendeur.id}) }}">
+                  <div>  Vendu par : {{ produit.vendeur.prenom }}</div>
+                {% if produit.vendeur.nature is same as 'professionnel' %}
+                   <div> Siret : {{ produit.vendeur.numeroDeSiret }}</div>
+                {% endif %}
+                 </a>
+             </div>
 
 
              <div class="produit-actions">

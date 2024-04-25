@@ -4,7 +4,7 @@
     <div class="profil_details">
         {% if app.user.photoDeProfil is not empty %}
         <div class="photoDeProfil">
-            <img src="{{ asset('photoDeProfil/'~ app.user.photoDeProfil) }}">
+            <img src="{{ asset('photoDeProfil/'~ app.user.photoDeProfil) }}" alt="photo de profil">
         </div>
         {% endif %}
         <div >
@@ -28,6 +28,11 @@
         <div>
             <p>Pays : {{ app.user.pays }}</p>
         </div>
+        {% if app.user.nature is same as "professionnel" %}
+        <div>
+            <p>Numéro de siret : {{ app.user.numeroDeSiret }}</p>
+        </div>
+        {% endif %}
         <div>
             <p>Mot de passe : *********</p>
         </div>

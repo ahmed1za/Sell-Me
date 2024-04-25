@@ -46,7 +46,7 @@ class MessagesRepository extends ServiceEntityRepository
     public function findConversation($envoyeur, $destinataire){
 
         $queryBuilder = $this->createQueryBuilder("m");
-        $queryBuilder->join("m.produit","mp")->addSelect("mp");
+        $queryBuilder->innerJoin("m.produit","mp")->addSelect("mp");
         $queryBuilder->andWhere("m.envoyeur = :envoyeur Or m.destinataire = :destinataire ");
         $queryBuilder->orWhere("m.envoyeur = :destinataire Or m.destinataire = :envoyeur ");
         $queryBuilder->setParameter("envoyeur", $envoyeur);
@@ -57,8 +57,8 @@ class MessagesRepository extends ServiceEntityRepository
     }
 
     public function findMessages($envoyeur, $destinataire) {
-        $queryBuilder = $this->createQueryBuilder("m");
-        $queryBuilder->join("m.produit", "mp");
+        $queryBuilder = $this->createQueryBuilder("m")
+                        ->innerJoin("m.produit", "mp");
         $queryBuilder->where(
             $queryBuilder->expr()->orX(
                 $queryBuilder->expr()->andX(

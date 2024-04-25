@@ -105,7 +105,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\OneToMany(targetEntity=Signalisation::class, mappedBy="utilisateurSignale")
      */
-    private $signalisations;
+    private $userSignale;
+    /**
+     * @ORM\OneToMany(targetEntity=Signalisation::class, mappedBy="utilisateurQuiSignale")
+     */
+    private $userQuiSignal;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -117,13 +121,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $dateExpirationBlocage;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $numeroDeSiret;
+
     public function __construct()
     {
         $this->produits = new ArrayCollection();
         $this->commandes = new ArrayCollection();
         $this->envoyer = new ArrayCollection();
         $this->recu = new ArrayCollection();
-        $this->signalisations = new ArrayCollection();
+        $this->userSignale = new ArrayCollection();
+        $this->userQuiSignal = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -430,27 +440,59 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Signalisation>
      */
-    public function getSignalisations(): Collection
+    public function getUserSignale(): Collection
     {
-        return $this->signalisations;
+        return $this->userSignale;
     }
 
-    public function addSignalisation(Signalisation $signalisation): self
+    public function addUserSignale(Signalisation $userSignale): self
     {
-        if (!$this->signalisations->contains($signalisation)) {
-            $this->signalisations[] = $signalisation;
-            $signalisation->setUtilisateurSignale($this);
+        if (!$this->userSignale->contains($userSignale)) {
+            $this->userSignale[] = $userSignale;
+            $userSignale->setUtilisateurSignale($this);
         }
 
         return $this;
     }
 
-    public function removeSignalisation(Signalisation $signalisation): self
+    public function removeUserSignale(Signalisation $userSignale): self
     {
-        if ($this->signalisations->removeElement($signalisation)) {
+        if ($this->userSignale->removeElement($userSignale)) {
             // set the owning side to null (unless already changed)
-            if ($signalisation->getUtilisateurSignale() === $this) {
-                $signalisation->setUtilisateurSignale(null);
+            if ($userSignale->getUtilisateurSignale() === $this) {
+                $userSignale->setUtilisateurSignale(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
+    /**
+     * @return Collection<int, Signalisation>
+     */
+    public function getUserQuiSignal(): Collection
+    {
+        return $this->userQuiSignal;
+    }
+
+    public function addUserQuiSignal(Signalisation $userQuiSignal): self
+    {
+        if (!$this->userSignale->contains($userQuiSignal)) {
+            $this->userSignale[] = $userQuiSignal;
+            $userQuiSignal->setUtilisateurSignale($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserQuiSignal(Signalisation $userQuiSignal): self
+    {
+        if ($this->userSignale->removeElement($userQuiSignal)) {
+            // set the owning side to null (unless already changed)
+            if ($userQuiSignal->getUtilisateurSignale() === $this) {
+                $userQuiSignal->setUtilisateurSignale(null);
             }
         }
 
@@ -477,6 +519,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDateExpirationBlocage(?\DateTimeInterface $dateExpirationBlocage): self
     {
         $this->dateExpirationBlocage = $dateExpirationBlocage;
+
+        return $this;
+    }
+
+    public function getNumeroDeSiret(): ?string
+    {
+        return $this->numeroDeSiret;
+    }
+
+    public function setNumeroDeSiret(?string $numeroDeSiret): self
+    {
+        $this->numeroDeSiret = $numeroDeSiret;
 
         return $this;
     }

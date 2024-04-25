@@ -44,7 +44,6 @@ class PaiementController extends AbstractController
     public function stripeSuccesse(PaymentService $paymentService,$id,CommandeRepository $commandeRepository,EntityManagerInterface $entityManager) : Response{
         $data = $paymentService->handleStripeSuccess($id,$commandeRepository,$entityManager);
         $commande = $commandeRepository->find($id);
-        $commandeDetails = $commande->getCommandeDetails();
 
 
 

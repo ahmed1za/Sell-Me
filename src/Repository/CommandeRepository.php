@@ -39,10 +39,15 @@ class CommandeRepository extends ServiceEntityRepository
         }
     }
 
-    public function commandePayee(){
+    public function findByUser($userId){
 
         $query = $this->createQueryBuilder("c")
             ->innerJoin("c.paiements","cp")
+            ->addSelect("cp")
+            ->innerJoin("c.commandeDetails",'cc')
+            ->addSelect("cc")
+            ->andWhere("c.user_id = :userId")
+            ->setParameter("userId",$userId)
             ->getQuery();
 
         return $query->getResult();

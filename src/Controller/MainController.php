@@ -37,8 +37,8 @@ public function home(CategoriesRepository $categoriesRepository,Request $request
         $data = $searchForm->getData();
         $nom = $data['nom'];
         $categorie = $data['categorie'];
-
-        $resultats = $produitRepository->searchProduct($nom, $categorie);
+        $page = $request->query->getInt('page', 1);
+        $resultats = $produitRepository->searchProduct($nom, $categorie,$page);
         return $this->render('produit/produitSearch.html.twig', [
             'searchForm' => $searchForm->createView(),
             'resultats' => $resultats,
@@ -56,6 +56,14 @@ public function home(CategoriesRepository $categoriesRepository,Request $request
            'searchForm' => $searchForm->createView(),
         'categories'=>$categories,
            ]);
+}
+
+/**
+ * @Route("/nous_connaitre",name="nous_connaitre")
+ */
+public function nousConnaitre()
+{
+    return $this->render('main/nous_connaitre.html.twig');
 }
 
 

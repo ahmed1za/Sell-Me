@@ -1,0 +1,39 @@
+{% extends 'baseForm.html.twig' %}
+
+{% block bodyForm %}
+
+    <div class="profil_details">
+        {% if user.photoDeProfil is not empty %}
+            <div class="photoDeProfil">
+                <img src="{{ asset('photoDeProfil/'~ user.photoDeProfil) }}" alt="photo de profil">
+            </div>
+            {% else %}
+                <div class="photoDeProfil">
+                    <img src="{{ asset('img/profil.png') }}" alt="photo de profil">
+                </div>
+        {% endif %}
+
+        <div >
+            <p>Nom : {{ user.nom }}</p>
+        </div>
+        <div>
+            <p>Prenom : {{ user.prenom }}</p>
+        </div>
+
+
+        <div>
+            <p>Ville : {{ user.ville }}</p>
+        </div>
+        <div>
+            <p>Pays : {{ user.pays }}</p>
+        </div>
+        {% if user.nature is same as "professionnel" %}
+        <div>
+            <p>Numéro de Siret : {{ user.numeroDeSiret }}</p>
+        </div>
+        {% endif %}
+    </div>
+
+
+{% endblock %}
+

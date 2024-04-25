@@ -11,10 +11,13 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class RegistrationFormType extends AbstractType
 {
@@ -31,6 +34,25 @@ class RegistrationFormType extends AbstractType
                 'multiple' => false,
                 'label' => 'vous êtes :',
             ])
+          ->add('numeroDeSiret', TextType::class, [
+                        'label' => 'Numero de Siret',
+                        'required' => true,
+                        'constraints' => [
+                            new NotBlank([
+                                'message' => 'Veuillez saisir votre numéro de Siret',
+                            ]),
+                            new Length([
+                                'min' => 14,
+                                'max' => 14,
+                                'minMessage' => 'Le numéro de Siret doit comporter exactement {{ limit }} chiffres',
+                                'maxMessage' => 'Le numéro de Siret doit comporter exactement {{ limit }} chiffres',
+                            ]),
+                            new Regex([
+                                'pattern' => '/^\d+$/',
+                                'message' => 'Le numéro de Siret doit être composé uniquement de chiffres',
+                            ]),
+                        ],
+                    ])
             ->add('email')
             ->add('plainPassword', PasswordType::class, [
                 'mapped' => false,

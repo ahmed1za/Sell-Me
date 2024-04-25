@@ -80,8 +80,8 @@ class CommandeController extends AbstractController
             $data = $searchForm->getData();
             $nom = $data['nom'];
             $categorie = $data['categorie'];
-
-            $resultats = $produitRepository->searchProduct($nom, $categorie);
+            $page = $request->query->getInt('page',1);
+            $resultats = $produitRepository->searchProduct($nom, $categorie,$page);
             return $this->render('produit/produitSearch.html.twig', [
                 'searchForm' => $searchForm->createView(),
                 'resultats' => $resultats,
@@ -108,9 +108,10 @@ class CommandeController extends AbstractController
     public function listCommandes(CommandeRepository $commandeRepository, ProduitRepository $produitRepository,CategoriesRepository $categoriesRepository, Request $request){
 
         $user = $this->getUser();
+        $userId = $user->getId();
 
         if ($user){
-            $commandes = $commandeRepository->findBy(['user_id'=>$user]);
+            $commandes = $commandeRepository->findByUser($userId);
         }
 
 
@@ -132,8 +133,8 @@ class CommandeController extends AbstractController
             $data = $searchForm->getData();
             $nom = $data['nom'];
             $categorie = $data['categorie'];
-
-            $resultats = $produitRepository->searchProduct($nom, $categorie);
+            $page = $request->query->getInt('page',1);
+            $resultats = $produitRepository->searchProduct($nom, $categorie,$page);
             return $this->render('produit/produitSearch.html.twig', [
                 'searchForm' => $searchForm->createView(),
                 'resultats' => $resultats,
@@ -176,8 +177,8 @@ class CommandeController extends AbstractController
             $data = $searchForm->getData();
             $nom = $data['nom'];
             $categorie = $data['categorie'];
-
-            $resultats = $produitRepository->searchProduct($nom, $categorie);
+            $page = $request->query->getInt('page', 1);
+            $resultats = $produitRepository->searchProduct($nom, $categorie,$page);
             return $this->render('produit/produitSearch.html.twig', [
                 'searchForm' => $searchForm->createView(),
                 'resultats' => $resultats,
@@ -194,6 +195,17 @@ class CommandeController extends AbstractController
             'commande' => $commande,
             'searchForm' => $searchForm->createView(),
             'categories'=>$categories,
+        ]);
+    }
+
+    /**
+     * @Route("/commandePayee/{id}",name="payee")
+     */
+    public function commandePayee($id,CommandeRepository $commandeRepository){
+        $commande = $commandeRepository->find($id);
+
+        return $this->render("commande/commandeValide.html.twig",[
+            'commande'=>$commande
         ]);
     }
 

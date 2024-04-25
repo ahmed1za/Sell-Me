@@ -41,7 +41,11 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email'=> $email]);
 
-        if ($user || $user->isBloquer()) {
+        if (!$user){
+            throw new CustomUserMessageAuthenticationException("l'email ou le mot de passe est incorrect !");
+        }
+
+        if ($user && $user->isBloquer()) {
             if ($user->getDateExpirationBlocage() >= new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'))){
             throw new CustomUserMessageAuthenticationException("Votre compte est bloqué jusqu'au " . $user->getDateExpirationBlocage()->format('Y-m-d H:i:s'));
         }

@@ -4,10 +4,10 @@ namespace App\Repository;
 
 use App\Data\Filtre;
 use App\Entity\Produit;
-use App\Form\SearchData;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
 /**
@@ -70,7 +70,7 @@ class ProduitRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-public function findBestProduct(int $page = 1, int $limit = 30){
+public function findBestProduct(int $page){
     $queryBuilder = $this->createQueryBuilder("p");
 
     $queryBuilder->leftJoin("p.images","pi")->addSelect("pi");
@@ -78,15 +78,12 @@ public function findBestProduct(int $page = 1, int $limit = 30){
     $queryBuilder->andWhere("p.prix > 0");
     $queryBuilder->addOrderBy("p.prix","ASC");
     $query = $queryBuilder->getQuery();
-    //$query->setMaxResults(30);
-    //$paginator = new Paginator($query);
-   // $result = $query->getResult();
 
-    return $this->paginator->paginate($query,$page,$limit);
+    return $this->paginator->paginate($query,$page,12);
 }
 
 
-    public function findByCategory($categorie,int $page = 1, int $limit = 30)
+    public function findByCategory($categorie,int $page)
     {
         $queryBuilder = $this->createQueryBuilder('p');
         $queryBuilder
@@ -99,11 +96,10 @@ public function findBestProduct(int $page = 1, int $limit = 30){
 
         $query = $queryBuilder->getQuery();
 
-        return $this->paginator->paginate($query,$page,$limit);
+        return $this->paginator->paginate($query,$page,12);
     }
-    // ProduitRepository.php
 
-    public function searchProduct($nom,$categorie)
+    public function searchProduct($nom,$categorie,$page)
     {
         $queryBuilder = $this->createQueryBuilder('p');
 
@@ -122,10 +118,10 @@ public function findBestProduct(int $page = 1, int $limit = 30){
                 ->setParameter('categorie', $categorie);
         }
 
-        return $queryBuilder->getQuery()->getResult();
+        return $this->paginator->paginate($queryBuilder,$page,12);
     }
 
-    public function filtrer(Filtre $filtre, int $page = 1, int $limit = 30) {
+    public function filtrer(Filtre $filtre) {
         $query= $this->createQueryBuilder('p')
             ->select('c','p')
             ->join('p.categorie','c')
@@ -134,6 +130,7 @@ public function findBestProduct(int $page = 1, int $limit = 30){
             ->join('p.Vendeur', 'u')
             ->addSelect('u')
         ;
+
 
         if (!empty($filtre->min)){
            $query = $query->andWhere('p.prix >= :min')
@@ -164,7 +161,7 @@ public function findBestProduct(int $page = 1, int $limit = 30){
                 ->setParameter('categories',$filtre->categories);
         }
 
-        return $this->paginator->paginate($query,$page,$limit);
+        return $this->paginator->paginate($query);
 
 
     }

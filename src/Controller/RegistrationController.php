@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\ModifProfilFormType;
 use App\Form\RegistrationFormType;
+use App\Repository\UserRepository;
 use App\Security\AppAuthenticator;
 use App\Services\MailSender;
 use Doctrine\ORM\EntityManagerInterface;
@@ -104,6 +105,22 @@ class RegistrationController extends AbstractController
         return $this->render('user/modifProfil.html.twig',[
             'modifForm'=>$modifForm->createView()
         ]);
+    }
+
+    /**
+     * @Route("profilVendeur/{id}", name="profil_vendeur")
+     */
+    public function profilVendur($id, UserRepository $userRepository){
+        $user = $userRepository->find($id);
+
+        if (!$user){
+            return error_log("Utilisateur introuvable");
+        }
+
+        return $this->render("user/profilVendeur.html.twig",[
+            "user"=>$user
+        ]);
+
     }
 
 }

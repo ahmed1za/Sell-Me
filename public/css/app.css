@@ -983,7 +983,7 @@ margin-top: 10px;
 .utilisateur-cible .message {
     background-color: #E0E0E0;
     margin-right: auto;
-    margin-left: 50px;
+    margin-left: 20px;
 }
 
 .chat-form {
@@ -1086,4 +1086,23 @@ display: flex;
 .paiement-valider{
     padding: 10px;
     text-align: center;
+}
+.pages{
+    margin-left: 20%;
+}
+.vendeur{
+    cursor: pointer;
+}
+.profil_details{
+    padding: 5px;
+    text-align: center;
+    margin-left: 8%;
+}
+.photoDeProfil_chat{
+    margin-left: 5px;
+}
+.photoDeProfil_chat img{
+    width: 20px;
+    height: 20px;
+    border-radius: 50% 50% 50% 50%;
 }
