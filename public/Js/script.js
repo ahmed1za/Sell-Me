@@ -9,11 +9,10 @@ function previous(){
 
 
     if(scrollLeft <=1000 ){
-        console.log("on rentre dans la condition")
         document.querySelector('.slider_nav_button--prev').style.display= "none";
-        document.querySelector('.slider_nav_button--next').style.display = "block"
+        document.querySelector('.slider_nav_button--next').style.display = "block";
     }else {
-        document.querySelector('.slider_nav_button--next').style.display = "block"
+        document.querySelector('.slider_nav_button--next').style.display = "block";
     }
 }
 
@@ -26,7 +25,7 @@ function next(){
     if(scrollLeft >= widthSlider){
         document.querySelector('.slider_nav_button--next').style.display= "none";
     }else {
-        document.querySelector('.slider_nav_button--prev').style.display = "block"
+        document.querySelector('.slider_nav_button--prev').style.display = "block";
     }
 }
 

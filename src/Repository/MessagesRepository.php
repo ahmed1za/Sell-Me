@@ -55,6 +55,21 @@ class MessagesRepository extends ServiceEntityRepository
 
         return $query->getResult();
     }
+/*
+  public function findMessages($envoyeur, $destinataire) {
+    $queryBuilder = $this->createQueryBuilder("m")
+        ->innerJoin("m.produit", "mp")
+        ->andWhere("(
+            m.envoyeur = :envoyeur AND m.destinataire = :destinataire
+            OR m.envoyeur = :destinataire AND m.destinataire = :envoyeur
+        )")
+        ->setParameter("envoyeur", $envoyeur)
+        ->setParameter("destinataire", $destinataire)
+        ->orderBy("m.dateDeCreation", "ASC");
+
+    return $queryBuilder->getQuery()->getResult();
+}
+*/
 
     public function findMessages($envoyeur, $destinataire) {
         $queryBuilder = $this->createQueryBuilder("m")

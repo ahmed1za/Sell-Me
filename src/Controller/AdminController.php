@@ -48,8 +48,9 @@ class AdminController extends AbstractController
             $data = $searchForm->getData();
             $nom = $data['nom'];
             $categorie = $data['categorie'];
+            $page = $request->query->get('page',1);
 
-            $resultats = $produitRepository->searchProduct($nom, $categorie);
+            $resultats = $produitRepository->searchProduct($nom, $categorie,$page);
             return $this->render('produit/produitSearch.html.twig', [
                 'searchForm' => $searchForm->createView(),
                 'resultats' => $resultats,
@@ -89,8 +90,9 @@ class AdminController extends AbstractController
             $data = $searchForm->getData();
             $nom = $data['nom'];
             $categorie = $data['categorie'];
+            $page = $request->query->get('page',1);
 
-            $resultats = $produitRepository->searchProduct($nom, $categorie);
+            $resultats = $produitRepository->searchProduct($nom, $categorie,$page);
             return $this->render('produit/produitSearch.html.twig', [
                 'searchForm' => $searchForm->createView(),
                 'resultats' => $resultats,
@@ -133,8 +135,8 @@ class AdminController extends AbstractController
             $data = $searchForm->getData();
             $nom = $data['nom'];
             $categorie = $data['categorie'];
-
-            $resultats = $produitRepository->searchProduct($nom, $categorie);
+            $page = $request->query->get('page',1);
+            $resultats = $produitRepository->searchProduct($nom, $categorie,$page);
             return $this->render('produit/produitSearch.html.twig', [
                 'searchForm' => $searchForm->createView(),
                 'resultats' => $resultats,

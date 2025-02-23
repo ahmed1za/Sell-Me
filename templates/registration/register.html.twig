@@ -34,12 +34,15 @@
     </article>
     <script>
         var natureSelect = document.querySelector('#{{ registrationForm.nature.vars.id }}');
+        var numeroDeSiret = document.querySelector('#{{ registrationForm.numeroDeSiret.vars.id }}')
         var numeroDeSiretContainer = document.getElementById("numeroDeSiretContainer");
 
         natureSelect.addEventListener('change', function (){
             if (this.value === 'professionnel'){
+                numeroDeSiret.required = true;
                 numeroDeSiretContainer.style.display = 'block';
             } else {
+                numeroDeSiret.required = false;
                 numeroDeSiretContainer.style.display = 'none';
             }
         });

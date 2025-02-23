@@ -23,7 +23,10 @@ class PaymentService
     private $session;
     private $produitRepository;
 
-    public function __construct(string $stripeSecretKey, Security $security,SessionInterface $session,ProduitRepository $produitRepository)
+    public function __construct(string $stripeSecretKey,
+                                Security $security,
+                                SessionInterface $session,
+                                ProduitRepository $produitRepository)
     {
         $this->stripeSecretKey = $stripeSecretKey;
         $this->security = $security;
@@ -66,8 +69,11 @@ class PaymentService
             'payment_method_types' => ['card'],
             'line_items' => $produitStripe,
             'mode' => 'payment',
-            'success_url' => $generator->generate('stripe_success', ['id' => $commandeId], UrlGeneratorInterface::ABSOLUTE_URL),
-            'cancel_url' => $generator->generate('stripe_error', ['id' => $commandeId], UrlGeneratorInterface::ABSOLUTE_URL),
+            'success_url' => $generator->generate('stripe_success', ['id' => $commandeId],
+                UrlGeneratorInterface::ABSOLUTE_URL),
+            'cancel_url' => $generator->generate('stripe_error',
+                ['id' => $commandeId],
+                UrlGeneratorInterface::ABSOLUTE_URL),
         ]);
         if ($this->session instanceof SessionInterface) {
             $this->session->set('checkout_session_id', $checkout_session->id);

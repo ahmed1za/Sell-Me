@@ -13,6 +13,7 @@ use App\Repository\ProduitRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -25,25 +26,24 @@ class MessageController extends AbstractController
     /**
      * @Route("/message", name="app_message")
      */
-    public function index(CategoriesRepository $categoriesRepository, ProduitRepository $produitRepository,MessagesRepository $messagesRepository,Request $request,SessionInterface $session): Response
+    public function index(CategoriesRepository $categoriesRepository,
+                          ProduitRepository $produitRepository,
+                          MessagesRepository $messagesRepository,
+                          Request $request,
+                          SessionInterface $session): Response
     {
         $user = $this->getUser();
-
         $conversations = $messagesRepository->findConversation($user,$user);
         $nombreNonLu = $messagesRepository->unreadMessageCount($user);
         $messagerie = [];
-
         $messageNonLu = reset($nombreNonLu[0]);
         $session->set('messageNonLu',$messageNonLu);
-
-
-
         $distinctConversations = [];
+
         foreach ($conversations as $conversation) {
             $envoyeurId = $conversation->getEnvoyeur()->getId();
             $destinataireId = $conversation->getDestinataire()->getId();
             $produitId = $conversation->getProduit()->getId();
-
 
             if ($conversation->isEstLu())
             {
@@ -51,7 +51,6 @@ class MessageController extends AbstractController
             }else{
                 $conversation->hasUnreadMessage = true;
             }
-
 
             $participants = [$envoyeurId, $destinataireId];
             sort($participants);
@@ -141,17 +140,13 @@ class MessageController extends AbstractController
             $message->setTitre($produit->getNom());
             $message->setProduit($produit);
             $formchat = $this->createForm(MessageType::class, $message);
-
-
-
             $formchat->handleRequest($request);
 
             if ($formchat->isSubmitted() && $formchat->isValid()){
-                $message->setDateDeCreation(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
+                $message->setDateDeCreation(new \DateTimeImmutable('now',
+                                            new \DateTimeZone('Europe/Paris')));
                 $image = $formchat->get('image')->getData();
                 $fichier = $formchat->get('fichier')->getData();
-
-
 
                 if (isset($image)){
 
@@ -164,7 +159,8 @@ class MessageController extends AbstractController
                     $message->setImage($fichier);
                 }
 
-                if (isset($fichier)) {
+                if (isset($fichier) && $fichier instanceof UploadedFile) {
+
                     $fichierNom = md5(uniqid()) . '.' . $fichier->guessExtension();
                     $fichier->move(
                         $this->getParameter('fichiers_directory_chat'),
@@ -172,9 +168,6 @@ class MessageController extends AbstractController
                     );
                     $message->setFichier($fichierNom);
                 }
-
-
-
 
                 $entityManager->persist($message);
                 $entityManager->flush();
@@ -195,13 +188,8 @@ class MessageController extends AbstractController
                 $hub->publish($update);
             }
 
-
         $nombreNonLu = array_sum($messagesRepository->unreadMessageCount($user));
-
-
         $session->set('messageNonLu',$nombreNonLu);
-
-
 
         $categories = $categoriesRepository->findSixCategories();
         $searchForm = $this->createForm(SearchProduitType::class);
@@ -228,9 +216,6 @@ class MessageController extends AbstractController
                 'filtreForm'=>$filreForm->createView()
             ]);
         }
-
-
-
 
             return $this->render('message/chat.html.twig',[
                 'searchForm' => $searchForm->createView(),

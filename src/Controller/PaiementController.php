@@ -41,11 +41,12 @@ class PaiementController extends AbstractController
     /**
      * @Route("/stripe/success/{id}", name="stripe_success")
      */
-    public function stripeSuccesse(PaymentService $paymentService,$id,CommandeRepository $commandeRepository,EntityManagerInterface $entityManager) : Response{
+    public function stripeSuccesse(PaymentService $paymentService,
+                                   $id,
+                                   CommandeRepository $commandeRepository,
+                                   EntityManagerInterface $entityManager) : Response{
         $data = $paymentService->handleStripeSuccess($id,$commandeRepository,$entityManager);
         $commande = $commandeRepository->find($id);
-
-
 
         return $this->render("commande/success.html.twig",[
             "data"=>$data,
@@ -53,7 +54,6 @@ class PaiementController extends AbstractController
         ]);
 
     }
-
 
     /**
      * @Route("/stripe/error/{id}", name="stripe_error")
@@ -63,8 +63,6 @@ class PaiementController extends AbstractController
         $data = $paymentService->handleStripeError($id);
         return $this->render("commande/error.html.twig");
     }
-
-
 }
 
 

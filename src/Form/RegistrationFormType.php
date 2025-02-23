@@ -30,29 +30,22 @@ class RegistrationFormType extends AbstractType
                 'choices' => [
                     'Un particulier' => 'particulier',
                     'Un professionnel' => 'professionnel',
-                      ],
+                ],
                 'multiple' => false,
                 'label' => 'vous êtes :',
             ])
-          ->add('numeroDeSiret', TextType::class, [
-                        'label' => 'Numero de Siret',
-                        'required' => true,
-                        'constraints' => [
-                            new NotBlank([
-                                'message' => 'Veuillez saisir votre numéro de Siret',
-                            ]),
-                            new Length([
-                                'min' => 14,
-                                'max' => 14,
-                                'minMessage' => 'Le numéro de Siret doit comporter exactement {{ limit }} chiffres',
-                                'maxMessage' => 'Le numéro de Siret doit comporter exactement {{ limit }} chiffres',
-                            ]),
-                            new Regex([
-                                'pattern' => '/^\d+$/',
-                                'message' => 'Le numéro de Siret doit être composé uniquement de chiffres',
-                            ]),
-                        ],
-                    ])
+            ->add('numeroDeSiret', TextType::class, [
+                'label' => 'Numero de Siret',
+                'required'=>false,
+                'constraints' => [
+                    new Length([
+                        'min' => 14,
+                        'max' => 14,
+                        'minMessage' => 'Le numéro de Siret doit comporter exactement {{ limit }} chiffres',
+                        'maxMessage' => 'Le numéro de Siret doit comporter exactement {{ limit }} chiffres',
+                    ]),
+                ],
+            ])
             ->add('email')
             ->add('plainPassword', PasswordType::class, [
                 'mapped' => false,
@@ -70,11 +63,11 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('adress',TextType::class)
             ->add('codePostal', IntegerType::class, [
-        'attr' => [
-            'min' => 0,
-            'max' => 99999,
-        ],
-                    'label'=>'Code postal'
+                'attr' => [
+                    'min' => 0,
+                    'max' => 99999,
+                ],
+                'label'=>'Code postal'
             ])
             ->add('ville', TextType::class)
             ->add('pays', TextType::class)

@@ -13,7 +13,6 @@ a {
     color: inherit;
     text-decoration: none;
 }
-
 a:hover{
     color: #5eb5e0;
 }
@@ -86,7 +85,6 @@ a:hover{
     color: red;
     margin-left: 10px;
     font-weight: bold;
-
 }
 #produit-categorie{
     font-weight: bold;
@@ -129,7 +127,6 @@ a:hover{
     margin-left: 20px;
     margin-right: 20px;
     min-height: 200px;
-
 }
 .livraison-disponible{
     color: #1EC34C;
@@ -157,19 +154,15 @@ a:hover{
 .produit-etat{
     color: #1EC34C;
 }
-
 .produit-image img {
     max-width: 100%;
 }
-
 .produit-container h2 {
-    color: black; /* Ajoutez la couleur du texte souhaitée */
+    color: black;
 }
-
 footer {
     background-color: #AAAAAA;
 }
-
 label {
     display: block;
     color: black;
@@ -183,7 +176,6 @@ input, textarea ,select{
     margin-left: 5%;
     background: rgba(0, 0, 0, 0.09);
     border-radius: 8px;
-
 }
 .form-container{
     background-color: #AAAAAA;
@@ -197,9 +189,6 @@ input, textarea ,select{
     width: 40%;
     height: auto;
     color: black;
-
-
-
 }
 .form-product article {
     padding: 30px;

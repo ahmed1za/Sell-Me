@@ -36,7 +36,7 @@ class Commande
     private $date_de_creation;
 
     /**
-     * @ORM\OneToMany(targetEntity=CommandeDetails::class, mappedBy="Commande_id",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=CommandeDetails::class, mappedBy="Commande_id",cascade={"persist","remove"})
      */
     private $commandeDetails;
 

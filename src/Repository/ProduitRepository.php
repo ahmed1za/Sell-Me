@@ -87,7 +87,7 @@ public function findBestProduct(int $page){
     {
         $queryBuilder = $this->createQueryBuilder('p');
         $queryBuilder
-            ->innerJoin('p.categorie', 'c')  // Utiliser 'categorie' au lieu de 'categories'
+            ->innerJoin('p.categorie', 'c')
             ->where('c.nom = :categorie')
             ->leftJoin('p.images','i')
             ->addSelect('i')

@@ -41,7 +41,6 @@ class Image
     public function setImage(?string $image): self
     {
         $this->image = $image;
-
         return $this;
     }
 
@@ -53,7 +52,6 @@ class Image
     public function setProduit(?Produit $produit): self
     {
         $this->produit = $produit;
-
         return $this;
     }
 }

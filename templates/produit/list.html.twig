@@ -21,7 +21,8 @@
     {% for produit in produits %}
         {% if produit.statut != "en attente de validation" %}
         <article class="articl-produit">
-            <a href="{{ path('produits_detail', {'id': produit.id}) }}" title="Voir les détails | quantité disponible {{ produit.quantite }}">
+            <a href="{{ path('produits_detail', {'id': produit.id}) }}"
+               title="Voir les détails | quantité disponible {{ produit.quantite }}">
                 {% if produit.image != "" %}
                     <img src="{{ asset('imageProduit/' ~ produit.image) }}" alt="{{ produit.nom }}">
                 {% else %}

@@ -43,6 +43,13 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            if ($user->getNature() === "professionnel")
+            {
+                if (!$user->getNumeroDeSiret())
+                {
+                    throw new \ErrorException("le numéro de siret n'est pas valide",300);
+                }
+            }
 
             $entityManager->persist($user);
             $entityManager->flush();

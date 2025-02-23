@@ -8,17 +8,13 @@
  {% block body %}
      <div class="produit-container">
          <div class="produit-image">
-
-
              <div class="slider_detail">
                  <div class="slider_detail_nav">
                      <img onclick="precedent()" class="slider_nav_button_detail slider_nav_button_detail--prev"
                           src="{{ asset('icon/flech gauche.png') }}" alt="precedent">
                      <img onclick="suivant()" class="slider_nav_button_detail slider_nav_button_detail--next"
                           src="{{ asset('icon/fleche droite.png') }}" alt="suivant">
-
                  </div>
-
                  <div class="slider_content_detail">
                      <div class="slider_content_item_detail">
                          {% if produit.image != "" %}
@@ -28,9 +24,7 @@
                              {% dump(asset('image-sell-me/image-par-default.jpg')) %}
                              {% dump("on est dans la condition") %}
                          {% endif %}
-
                      </div>
-
 
                      {% for image in produit.images %}
                          {% if image.image != "" %}
@@ -40,10 +34,7 @@
                          {% endif %}
                      {% endfor %}
                  </div>
-
              </div>
-
-
          </div>
          <div class="produit-details">
              <h2 class="produit-nom">{{ produit.nom }}</h2>
@@ -71,8 +62,6 @@
                 {% endif %}
                  </a>
              </div>
-
-
              <div class="produit-actions">
                  {% if produit.quantite is same as 0 %}
                      {% if produit.vendeur.nature is same as "particulier" %}
@@ -87,15 +76,14 @@
                                  <button class="contacter-vendeur" disabled>
                                          le vendeur</button>
                                  {% else %}
-                             <button class="contacter-vendeur"><a
-                                         href="{{ path('app_chat',{'id': produit.vendeur.id ,'produitId': produit.id}) }}">Contacter
-                                     le vendeur</a></button>
+                             <button class="contacter-vendeur">
+                                 <a href="{{ path('app_chat',{'id': produit.vendeur.id ,'produitId': produit.id}) }}">
+                                     Contacter le vendeur</a></button>
                                      {% endif %}
                          {% else %}
-                             <button class="contacter-vendeur"><a
-                                         href="{{ path('contacterVendeur',{'id': produit.vendeur.id ,'produitId': produit.id}) }}">Contacter
-                                     le vendeur</a></button>
-
+                             <button class="contacter-vendeur">
+                                 <a href="{{ path('contacterVendeur',{'id': produit.vendeur.id ,'produitId': produit.id}) }}">
+                                     Contacter le vendeur</a></button>
                          {% endif %}
 
                          <button class="ajouter-panier" disabled>Ajouter au panier</button>

@@ -164,7 +164,7 @@
     scrollToBottom();
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function() {
     //récupération des élément du formulaire
     const form = document.getElementById("formchat");
     const messageInput = document.getElementById("message_message");
@@ -190,8 +190,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 form.reset();
             } else {
                 console.error("Erreur lors de la soumission du formulaire");
-            }
-        })
+            }})
         .catch(error => {
             console.error("Erreur lors de la soumission du formulaire:", error);
         });
@@ -202,8 +201,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Fonction pour activer ou désactiver le bouton d'envoi en fonction de la saisie dans les champs
     function toggleSubmitButton() {
-        console.log("Message Input Value:", messageInput.value);
-        console.log("Image Input Value:", imageInput.value);
 
         const button = document.getElementById("buttonForm");
         if (messageInput.value.trim() === "" && imageInput.value.trim() === "") {

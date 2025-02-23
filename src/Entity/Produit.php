@@ -56,11 +56,6 @@ class Produit
      */
     private $dateDeModification;
 
-    /**
-     * @Assert\Choice(choices={"Informatique","Maison & cuisine","Sport","Jardin & animalerie","Elecromenager","Bijoux","Vehicule"})
-     * @ORM\Column(type="string", length=255)
-     */
-    /*private $categories;*/
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -90,7 +85,7 @@ class Produit
     private $livraison;
 
     /**
-     * @ORM\OneToMany(targetEntity=CommandeDetails::class, mappedBy="produit_id")
+     * @ORM\OneToMany(targetEntity=CommandeDetails::class, mappedBy="produit_id",orphanRemoval=true)
      */
     private $commandeDetails;
 

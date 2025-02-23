@@ -103,11 +103,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $photoDeProfil;
 
     /**
-     * @ORM\OneToMany(targetEntity=Signalisation::class, mappedBy="utilisateurSignale")
+     * @ORM\OneToMany(targetEntity=Signalisation::class, mappedBy="utilisateurSignale", cascade={"remove"})
      */
     private $userSignale;
     /**
-     * @ORM\OneToMany(targetEntity=Signalisation::class, mappedBy="utilisateurQuiSignale")
+     * @ORM\OneToMany(targetEntity=Signalisation::class, mappedBy="utilisateurQuiSignale", cascade={"remove"})
      */
     private $userQuiSignal;
 
